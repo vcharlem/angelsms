@@ -31,7 +31,7 @@ public class Splash extends InstrumentedActivity {
 		@Override
 		public void onFinish() {
 			if (prefName.equalsIgnoreCase("")) {
-				startActivity(new Intent(Splash.this, TermCondition.class));
+				startActivity(new Intent(Splash.this, T.class));
 				finish();
 			}
 			if (!prefName.equalsIgnoreCase("")) {
