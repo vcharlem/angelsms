@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FF7700" >
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="#FF7700"
+        android:ems="10"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        android:textStyle="bold|italic" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp" >
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="English" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radioButton1"
+            android:layout_centerVertical="true"
+            android:text="Espanol" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radioButton2"
+            android:layout_centerVertical="true"
+            android:text="French" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" >
+
+        <EditText
+            android:id="@+id/editText10"
+            android:layout_width="0dip"
+            android:layout_weight="1.9"
+            android:background="#FF7700"        
+            android:textColor="#FFFFFFFF"
+            android:text = "1st Time"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText11"
+            android:layout_width="0dip"
+            android:layout_weight="1.9"
+            android:background="#FF7700"        
+            android:textColor="#FFFFFFFF"
+            android:text = "Unregistered"            
+            android:textSize="12sp"
+            android:layout_height="wrap_content" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText12"
+            android:layout_width="0dip"
+            android:layout_weight="1.9"
+            android:background="#FF7700"        
+            android:textColor="#FFFFFFFF"
+            android:text = "Verified"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" >
+          
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText13"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.9"
+            android:background="#FF7700"
+            android:text="Unverified"
+            android:textColor="#FFFFFFFF"
+            android:textSize="12sp" >
+		
+        </EditText>
+    </LinearLayout>
+
+</RelativeLayout>
