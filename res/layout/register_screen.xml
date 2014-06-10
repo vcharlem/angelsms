@@ -7,36 +7,36 @@
     tools:context=".MainActivity" >
     
     <RelativeLayout
-        android:background="@color/YellowGreen"
+        android:background="#FF7700"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
         
         <LinearLayout
-            android:id="@id/ll1"
+            android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" >
         	
    			<Button
-        		android:id="@id/button_skip"
+        		android:id="@+id/button_skip"
 		        android:layout_width="@dimen/About_width"
 		        android:layout_height="@dimen/About_height"
 		        android:layout_alignParentTop="true"
 		        android:layout_alignParentLeft="true"
-		        android:background="@color/Black"
+		        android:background="#FF7700"
 		        android:text="Skip"
-		        android:textColor="@color/White"
+		        android:textColor="@color/Black"
 		        android:textSize="@dimen/font_medium"
 		        android:onClick="OnClickAbout" />
 			<Button
-        		android:id="@id/button_done"			    
+        		android:id="@+id/button_done"			    
 		        android:layout_width="@dimen/About_width"
 		        android:layout_height="@dimen/About_height"
 		        android:layout_alignParentTop="true"
 		        android:layout_alignParentRight="true"
-		        android:background="@color/Black"
+		        android:background="#FF7700"
 		        android:text="Done"
-		        android:textColor="@color/White"
+		        android:textColor="@color/Black"
 		        android:textSize="@dimen/font_medium"
 		        android:onClick="OnClickQuit" />
 		</LinearLayout>
@@ -106,18 +106,6 @@
                     android:layout_width="@dimen/button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/num9" />
-
-                <Button
-                    android:id="@+id/mr"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ope_MR" />
-
-                <Button
-                    android:id="@+id/add"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/plus" />
             </TableRow>
 
             <TableRow
@@ -142,18 +130,6 @@
                     android:layout_width="@dimen/button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/num6" />
-
-                <Button
-                    android:id="@+id/mc"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ope_MC" />
-
-                <Button
-                    android:id="@+id/minus"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/minus" />
             </TableRow>
 
             <TableRow
@@ -178,18 +154,6 @@
                     android:layout_width="@dimen/button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/num3" />
-
-                <Button
-                    android:id="@+id/c"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ope_Back" />
-
-                <Button
-                    android:id="@+id/multi"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Multi" />
             </TableRow>
 
             <TableRow
@@ -214,18 +178,6 @@
                     android:layout_width="@dimen/button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/pos_neg" />
-
-                <Button
-                    android:id="@+id/equal"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/equal" />
-
-                <Button
-                    android:id="@+id/divide"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/divide" />
             </TableRow>
         </TableLayout>
 
@@ -234,7 +186,7 @@
 		        android:layout_height="@dimen/About_height"
 		        android:layout_alignParentBottom="true"
 		        android:layout_alignParentLeft="true"
-		        android:background="@color/Green"
+		        android:background="#FF7700"
 		        android:text="@string/ABOUT"
 		        android:textColor="@color/Black"
 		        android:textSize="@dimen/font_medium"
@@ -244,7 +196,7 @@
 		        android:layout_height="@dimen/About_height"
 		        android:layout_alignParentBottom="true"
 		        android:layout_alignParentRight="true"
-		        android:background="@color/Green"
+		        android:background="#FF7700"
 		        android:text="@string/QUIT"
 		        android:textColor="@color/Black"
 		        android:textSize="@dimen/font_medium"
