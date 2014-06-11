@@ -12,44 +12,13 @@
         android:layout_height="match_parent" >
         
         <LinearLayout
-            android:id="@+id/ll1"
+            android:id="@+id/top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" >
-        	
-   			<Button
-        		android:id="@+id/button_skip"
-		        android:layout_width="@dimen/About_width"
-		        android:layout_height="@dimen/About_height"
-		        android:layout_alignParentTop="true"
-		        android:layout_alignParentLeft="true"
-		        android:background="#FF7700"
-		        android:text="Skip"
-		        android:textColor="@color/Black"
-		        android:textSize="@dimen/font_medium"
-		        android:onClick="OnClickAbout" />
-			<Button
-        		android:id="@+id/button_done"			    
-		        android:layout_width="@dimen/About_width"
-		        android:layout_height="@dimen/About_height"
-		        android:layout_alignParentTop="true"
-		        android:layout_alignParentRight="true"
-		        android:background="#FF7700"
-		        android:text="Done"
-		        android:textColor="@color/Black"
-		        android:textSize="@dimen/font_medium"
-		        android:onClick="OnClickQuit" />
-		</LinearLayout>
-		
-        <LinearLayout
-            android:id="@+id/ll2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll1"
+            android:layout_alignParentTop="true"            
             android:orientation="vertical" >
 
 	        <TextView
-	            android:id="@+id/app_title"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 	            android:layout_centerHorizontal="true"
@@ -57,13 +26,50 @@
 	            android:text="Register"
 	            android:textColor="@color/White"
 	            android:textSize="@dimen/font_medium" />
+		</LinearLayout>     
+		   
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"                        
+            android:layout_below="@id/top" >
+        	
+   			<Button
+   			    android:id="@+id/button_skip"
+   			    android:layout_width="wrap_content"
+   			    android:layout_height="wrap_content"
+   			    android:layout_marginLeft="8dp"
+   			    android:background="#FF7700"
+   			    android:onClick="OnClickAbout"
+   			    android:text="Skip"
+   			    android:textColor="@color/Black"
+   			    android:textSize="@dimen/font_medium" />
+   			
+			<Button
+			    android:id="@+id/button_done"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+			    android:layout_gravity="right"
+			    android:layout_marginLeft="200dp"
+			    android:layout_marginRight="5dp"
+			    android:background="#FF7700"
+			    android:gravity="center_vertical|center_horizontal|right"
+			    android:onClick="OnClickQuit"
+			    android:text="Done"
+			    android:textColor="@color/Black"
+			    android:textSize="@dimen/font_medium" />
+
 		</LinearLayout>
+		
+
 		
       	<LinearLayout
       	    android:id="@+id/ll3"
       	    android:layout_width="match_parent"
       	    android:layout_height="wrap_content"
-      	    android:layout_below="@id/ll2"
+      	    android:layout_below="@id/ll1"
       	    android:gravity="center|center_horizontal" >
 
       		<EditText
@@ -72,7 +78,12 @@
       		    android:layout_height="wrap_content"
       		    android:layout_weight="1"
       		    android:ems="10"
-      		    android:inputType="none|textMultiLine"
+      		    android:editable="false"
+      		    android:clickable="false" 
+        		android:cursorVisible="false" 
+        		android:focusable="false" 
+        		android:focusableInTouchMode="false"
+      		    android:inputType="none"
       		    android:text="Please confirm your Country code and enter your mobile number." />
 
 		</LinearLayout>
@@ -84,7 +95,8 @@
 	        android:layout_below="@id/ll3" >
 
 	            <EditText
-	                android:id="@+id/input_num"
+	                android:id="@+id/phoneNum"
+	      		    android:inputType="phone"                
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="1"

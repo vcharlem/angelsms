@@ -91,7 +91,6 @@
 	                android:layout_weight="1"
 	                android:background="@color/White"
 	                android:ems="10"
-	                android:hint="@string/input_hint"
 	                android:textColor="@color/Black" >
 
 	                <requestFocus />
