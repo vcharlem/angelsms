@@ -29,6 +29,6 @@
     <string name="equal">=</string>
     <string name="ABOUT">ABOUT</string>
     <string name="QUIT">QUIT</string>
-    <string name="title_activity_about">About</string>
+    <string name="title_activity_about">My Angels</string>
     <string name="about">Author: Bright Halo</string>
 </resources>

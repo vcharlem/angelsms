@@ -58,11 +58,30 @@
 	            android:textColor="@color/White"
 	            android:textSize="@dimen/font_medium" />
 		</LinearLayout>
+		
+      	<LinearLayout
+      	    android:id="@+id/ll3"
+      	    android:layout_width="match_parent"
+      	    android:layout_height="wrap_content"
+      	    android:layout_below="@id/ll2"
+      	    android:gravity="center|center_horizontal" >
+
+      		<EditText
+      		    android:id="@+id/editText1"
+      		    android:layout_width="wrap_content"
+      		    android:layout_height="wrap_content"
+      		    android:layout_weight="1"
+      		    android:ems="10"
+      		    android:inputType="none|textMultiLine"
+      		    android:text="Please confirm your Country code and enter your mobile number." />
+
+		</LinearLayout>
+        
 	    <LinearLayout
-            android:id="@+id/ll3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll2">
+	        android:id="@+id/ll5"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/ll3" >
 
 	            <EditText
 	                android:id="@+id/input_num"
@@ -81,7 +100,7 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/ll3"
+            android:layout_below="@id/ll5"
             android:gravity="center" >
 
             <TableRow
@@ -162,16 +181,16 @@
                 android:gravity="center_horizontal" >
 
                 <Button
-                    android:id="@+id/b0"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/num0" />
-
-                <Button
                     android:id="@+id/dot"
                     android:layout_width="@dimen/button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/dot" />
+
+                <Button
+                    android:id="@+id/b0"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num0" />
 
                 <Button
                     android:id="@+id/pos_neg"
