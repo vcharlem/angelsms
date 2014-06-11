@@ -25,16 +25,15 @@ public class Registration extends Activity{
 	  doneBtn  = (Button)   findViewById(R.id.button_done);
 	  phoneNum = (EditText) findViewById(R.id.phoneNum);
 	  
-	  InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 
-	  imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
 
 	  setBtnListeners();
 	}
 	
+   /* 'Done Btn' - will close this activity for now. 
+    * 'Skip Btn' - move to select angel group
+    * 'Quit Btn' - close application
+    */	
 	private void setBtnListeners(){
-	 /*	Skip button will allow the user to bypass this process
-	  * 
-	  */
       skipBtn.setOnClickListener(new OnClickListener() {
   		public void onClick(View v) {
   			 Intent intent1 = new Intent(Registration.this,Splash.class);
@@ -42,13 +41,15 @@ public class Registration extends Activity{
   		}
   	  });
       
-     /* Done Button will close this activity for now. 
-      * The plan is to reprogram this button to send the SMS.
-      */
       doneBtn.setOnClickListener(new OnClickListener() {
   		public void onClick(View v) {
   			 finish();
   		}
   	  });
+	}
+	
+	private void setKeyPad(){
+		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 
+		imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
 	}
 }

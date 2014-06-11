@@ -60,11 +60,8 @@
 			    android:text="Done"
 			    android:textColor="@color/Black"
 			    android:textSize="@dimen/font_medium" />
-
 		</LinearLayout>
-		
 
-		
       	<LinearLayout
       	    android:id="@+id/ll3"
       	    android:layout_width="match_parent"
@@ -73,7 +70,7 @@
       	    android:gravity="center|center_horizontal" >
 
       		<EditText
-      		    android:id="@+id/editText1"
+      		    android:id="@+id/instructions"
       		    android:layout_width="wrap_content"
       		    android:layout_height="wrap_content"
       		    android:layout_weight="1"
@@ -85,28 +82,29 @@
         		android:focusableInTouchMode="false"
       		    android:inputType="none"
       		    android:text="Please confirm your Country code and enter your mobile number." />
-
 		</LinearLayout>
         
 	    <LinearLayout
 	        android:id="@+id/ll5"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/ll3" >
+	        android:layout_below="@id/ll3"
+	        android:gravity="center|center_horizontal" >
 
-	            <EditText
-	                android:id="@+id/phoneNum"
-	      		    android:inputType="phone"                
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:background="@color/White"
-	                android:ems="10"
-	                android:hint="@string/input_hint"
-	                android:textColor="@color/Black" >
-
-	                <requestFocus />
-	            </EditText>
+            <EditText
+                android:id="@+id/phoneNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+      		    android:editable="true"
+      		    android:clickable="true" 
+        		android:cursorVisible="true" 
+        		android:focusable="true" 
+        		android:focusableInTouchMode="true"
+      		    android:inputType="none"                
+                android:hint="@string/input_hint"
+                android:textColor="@color/Black" />
 		</LinearLayout>
 		
         <TableLayout
