@@ -8,12 +8,13 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-/*
- * 
+/* Verification module will be used to validate user number.
+ * User registers -> Server replies with Verification Code
+ * User confirms reception of verification Code
  */
-public class Registration extends Activity{
+public class Verification extends Activity{
 	Button skipBtn, doneBtn;
-	EditText phoneNum, passwordEditText;
+	EditText phoneNum, passwordEditText, verificatn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -21,9 +22,10 @@ public class Registration extends Activity{
 	  super.onCreate(savedInstanceState);
 	
 	  setContentView(R.layout.register_screen);
-	  skipBtn  = (Button)   findViewById(R.id.button_skip);
-	  doneBtn  = (Button)   findViewById(R.id.button_done);
-	  phoneNum = (EditText) findViewById(R.id.phoneNum);
+	  skipBtn    = (Button)   findViewById(R.id.button_skip);
+	  doneBtn    = (Button)   findViewById(R.id.button_done);
+	  phoneNum   = (EditText) findViewById(R.id.phoneNum);
+	  verificatn = (EditText) findViewById(R.id.verify_code);
 	  
 	  setBtnListeners();
 	}
@@ -35,7 +37,7 @@ public class Registration extends Activity{
 	private void setBtnListeners(){
       skipBtn.setOnClickListener(new OnClickListener() {
   		public void onClick(View v) {
-  			 Intent intent1 = new Intent(Registration.this,Splash.class);
+  			 Intent intent1 = new Intent(Verification.this,Splash.class);
              startActivity(intent1);
   		}
   	  });

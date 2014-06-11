@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF7700" 
+    android:gravity="center"
+    tools:context=".MainActivity" >
+	        
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/b1"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num7" />
+
+                <Button
+                    android:id="@+id/b2"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num8" />
+
+                <Button
+                    android:id="@+id/b3"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num9" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/b4"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num4" />
+
+                <Button
+                    android:id="@+id/b5"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num5" />
+
+                <Button
+                    android:id="@+id/b6"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num6" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/b7"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num1" />
+
+                <Button
+                    android:id="@+id/b8"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num2" />
+
+                <Button
+                    android:id="@+id/b9"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num3" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/dot"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dot" />
+
+                <Button
+                    android:id="@+id/b0"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num0" />
+
+                <Button
+                    android:id="@+id/pos_neg"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pos_neg" />
+            </TableRow>
+        </TableLayout>
+</LinearLayout>

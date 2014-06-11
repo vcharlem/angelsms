@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FF7700" 
+    android:layout_alignParentBottom="true"
+   	android:layout_alignParentLeft="true"        
+    android:gravity="center"
+    tools:context=".MainActivity" >
+
+		        <Button
+		            android:layout_width="@dimen/About_width"
+		            android:layout_height="@dimen/About_height"
+		            android:layout_alignParentBottom="true"
+		            android:layout_alignParentLeft="true"
+		            android:background="#FF7700"
+		            android:onClick="OnClickAbout"
+		            android:text="@string/ABOUT"
+		            android:textColor="@color/Black"
+		            android:textSize="@dimen/font_medium" />
+		
+		        <Button
+		            android:layout_width="@dimen/About_width"
+		            android:layout_height="@dimen/About_height"
+		            android:layout_alignParentBottom="true"
+		            android:layout_alignParentRight="true"
+		            android:background="#FF7700"
+		            android:onClick="OnClickQuit"
+		            android:text="@string/QUIT"
+		            android:textColor="@color/Black"
+		            android:textSize="@dimen/font_medium" />
+		</LinearLayout>
