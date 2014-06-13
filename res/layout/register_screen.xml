@@ -101,7 +101,7 @@
 	            android:editable="true"
 	            android:ems="10"
 	            android:focusable="true"
-	            android:focusableInTouchMode="true"
+	            android:focusableInTouchMode="false"
 	            android:hint="@string/input_hint"
 	            android:inputType="none"
 	            android:textColor="@color/Black" />

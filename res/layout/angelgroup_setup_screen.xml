@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:clickable="false"
+    
     android:background="#FF7700" >
 
     <LinearLayout
@@ -23,12 +25,15 @@
         
     <LinearLayout
         android:id="@+id/vl2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="false"
+        android:descendantFocusability="blocksDescendants" 
         android:layout_below="@id/ll1"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+	    android:focusable="true" 
+		android:clickable="false"   >
     
         <TextView
             android:layout_width="match_parent"
@@ -40,14 +45,17 @@
 
         </TextView>
 	    <ListView
-	        android:id="@+id/listView1"
-	        android:layout_width="140dp"
+	        android:id="@+id/listContacts"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="5dp" >
+	        android:layout_marginLeft="5dp"
+	        android:choiceMode="singleChoice"
+	        android:listSelector="@null"
+	        android:descendantFocusability="blocksDescendants" >
 	        
 	    </ListView>
     </LinearLayout>
-    
+ <!--    
     <LinearLayout
         android:id="@+id/vl3"
         android:layout_width="wrap_content"
@@ -65,11 +73,13 @@
             android:textSize="@dimen/font_medium" />
         	    
 	    <ListView
-	        android:id="@+id/listView2"
+	        android:id="@+id/listAngels"
 	        android:layout_width="148dp"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="wrap_content"
+	        android:focusable="true" 
+			android:clickable="true"  >
 
 	    </ListView>
     </LinearLayout>
-    
+    -->
 </RelativeLayout>

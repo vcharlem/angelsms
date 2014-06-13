@@ -1,6 +1,8 @@
 package com.brighthalo.myangels;
 
+import android.R.string;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 public class Registration extends Activity{
 	Button skipBtn, doneBtn;
 	EditText phoneNum, passwordEditText;
+	private final static boolean SHOW_NATIVE_KEYPAD = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -24,7 +27,8 @@ public class Registration extends Activity{
 	  skipBtn  = (Button)   findViewById(R.id.button_skip);
 	  doneBtn  = (Button)   findViewById(R.id.button_done);
 	  phoneNum = (EditText) findViewById(R.id.phoneNum);
-	  
+
+	  //setNativeKeyPadVisibility();
 	  setBtnListeners();
 	}
 	
@@ -35,7 +39,7 @@ public class Registration extends Activity{
 	private void setBtnListeners(){
       skipBtn.setOnClickListener(new OnClickListener() {
   		public void onClick(View v) {
-  			 Intent intent1 = new Intent(Registration.this,Splash.class);
+  			 Intent intent1 = new Intent(Registration.this,Verification.class);
              startActivity(intent1);
   		}
   	  });
@@ -47,8 +51,12 @@ public class Registration extends Activity{
   	  });
 	}
 	
-	private void setKeyPad(){
+	private void setNativeKeyPadVisibility(){
 		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 
-		imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
+		if(SHOW_NATIVE_KEYPAD){
+			imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
+		}else{
+			imm.hideSoftInputFromWindow(phoneNum.getWindowToken(), 0);
+		}
 	}
 }

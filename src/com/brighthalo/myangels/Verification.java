@@ -15,18 +15,20 @@ import android.widget.EditText;
 public class Verification extends Activity{
 	Button skipBtn, doneBtn;
 	EditText phoneNum, passwordEditText, verificatn;
+	private final static boolean SHOW_NATIVE_KEYPAD2 = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
 	  // TODO Auto-generated method stub
 	  super.onCreate(savedInstanceState);
 	
-	  setContentView(R.layout.register_screen);
+	  setContentView(R.layout.verification_screen);
 	  skipBtn    = (Button)   findViewById(R.id.button_skip);
 	  doneBtn    = (Button)   findViewById(R.id.button_done);
 	  phoneNum   = (EditText) findViewById(R.id.phoneNum);
 	  verificatn = (EditText) findViewById(R.id.verify_code);
 	  
+	  //setNativeKeyPadVisibility();
 	  setBtnListeners();
 	}
 	
@@ -35,12 +37,12 @@ public class Verification extends Activity{
     * 'Quit Btn' - close application
     */	
 	private void setBtnListeners(){
-      skipBtn.setOnClickListener(new OnClickListener() {
-  		public void onClick(View v) {
-  			 Intent intent1 = new Intent(Verification.this,Splash.class);
-             startActivity(intent1);
-  		}
-  	  });
+	      skipBtn.setOnClickListener(new OnClickListener() {
+	  		public void onClick(View v) {
+	  			 Intent intent1 = new Intent(Verification.this,Registration.class);
+	             startActivity(intent1);
+	  		}
+	  	  });
       
       doneBtn.setOnClickListener(new OnClickListener() {
   		public void onClick(View v) {
@@ -49,8 +51,13 @@ public class Verification extends Activity{
   	  });
 	}
 	
-	private void setKeyPad(){
+	private void setNativeKeyPadVisibility(){
 		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 
-		imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
+
+		if(SHOW_NATIVE_KEYPAD2){
+			imm.showSoftInput(phoneNum, InputMethodManager.SHOW_IMPLICIT);
+		}else{
+			imm.hideSoftInputFromWindow(phoneNum.getWindowToken(), 0);
+		}
 	}
 }
