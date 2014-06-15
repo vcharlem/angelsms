@@ -1,85 +1,131 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:clickable="false"
+    android:background="@color/Black"
+    android:orientation="horizontal"
+    android:gravity="center"
+    tools:context=".MainActivity" >
     
-    android:background="#FF7700" >
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#FF7700" >
 
-    <LinearLayout
-        android:id="@+id/ll1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-	    <TextView
-	         android:id="@+id/app_title"
-	         android:layout_width="match_parent"
-	         android:layout_height="match_parent"
-	         android:layout_centerHorizontal="true"
-	         android:gravity="center_horizontal"
-	         android:text="Select Your Angels"
-	         android:textColor="@color/Black"
-	         android:textSize="@dimen/font_medium" />
-	</LinearLayout>
-
-        
-    <LinearLayout
-        android:id="@+id/vl2"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="false"
-        android:descendantFocusability="blocksDescendants" 
-        android:layout_below="@id/ll1"
-        android:orientation="vertical"
-	    android:focusable="true" 
-		android:clickable="false"   >
-    
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Contacts"
-            android:textColor="@color/Black"
-            android:textSize="@dimen/font_medium" >
-
-        </TextView>
-	    <ListView
-	        android:id="@+id/listContacts"
+	    <LinearLayout
+	        android:id="@+id/ll1"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="5dp"
-	        android:choiceMode="singleChoice"
-	        android:listSelector="@null"
-	        android:descendantFocusability="blocksDescendants" >
-	        
-	    </ListView>
-    </LinearLayout>
- <!--    
-    <LinearLayout
-        android:id="@+id/vl3"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
-        android:layout_below="@id/ll1"
-        android:orientation="vertical" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Angels"
-            android:textColor="@color/Black"
-            android:textSize="@dimen/font_medium" />
-        	    
-	    <ListView
-	        android:id="@+id/listAngels"
-	        android:layout_width="148dp"
-	        android:layout_height="wrap_content"
-	        android:focusable="true" 
-			android:clickable="true"  >
+	        android:orientation="vertical" >
 
-	    </ListView>
-    </LinearLayout>
-    -->
-</RelativeLayout>
+	        <TextView
+	            android:id="@+id/app_title"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:layout_centerHorizontal="true"
+	            android:gravity="center_horizontal"
+	            android:text="Select Your Angels"
+	            android:textColor="@color/Black"
+	            android:textSize="@dimen/font_medium" />
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:id="@+id/ll2"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="false"
+	        android:layout_below="@id/ll1"
+	        android:orientation="horizontal" >
+
+	        <RelativeLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" >
+
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal"
+	                android:text="Contacts"
+	                android:textColor="@color/Black"
+	                android:textSize="@dimen/font_medium" >
+	            </TextView>
+
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:layout_gravity="right"
+	                android:layout_marginRight="5dp"
+	                android:gravity="center_horizontal|right"
+	                android:text="Angels"
+	                android:textColor="@color/Black"
+	                android:textSize="@dimen/font_medium" >
+	            </TextView>
+	        </RelativeLayout>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:id="@+id/ll20"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_below="@+id/ll2"
+	        android:layout_weight="1" >
+
+	        <LinearLayout
+	            android:id="@+id/ll3"
+	            android:layout_width="170dip"
+	            android:layout_height="fill_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+
+	            <ListView
+	                android:id="@+id/list"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginLeft="5dp"
+	                android:clickable="false" >
+	            </ListView>
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:id="@+id/ll4"
+	            android:layout_width="150dip"
+	            android:layout_height="fill_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+
+	            <ListView
+	                android:id="@+id/listAngels"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:clickable="false" >
+	            </ListView>
+
+	            <TextView
+	                android:id="@+id/nameAngel1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal"
+	                android:text="Contacts"
+	                android:textColor="@color/Black"
+	                android:textSize="@dimen/font_medium" />
+	        </LinearLayout>
+	    </LinearLayout>
+	    
+	  <include
+        android:id="@+id/bottom_btns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:layout_alignParentBottom="true"
+        android:background="#FF7700" 
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        layout="@layout/about_quit_btn"
+        android:gravity="center" >
+    </include>
+	    
+	</RelativeLayout>
+</LinearLayout>

@@ -3,16 +3,16 @@
 	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content"
 	android:gravity="center_vertical" 
-		    android:onClick="onActionButtonClick"
 	
 	android:background="@drawable/greybordercell">
+
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:id="@+id/contactName"
+		android:id="@+id/angeltext"
 		android:textSize="20dip"
 		android:textStyle="bold"
 		android:singleLine="true"
-		android:layout_marginLeft="64dip" 
+		android:layout_marginLeft="5dip" 
 		android:layout_marginTop="10dip" 
 		android:text="Bright Halo">
 	</TextView>
@@ -20,21 +20,11 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/btnAction"
 		android:background="@layout/select_call"
-			    android:onClick="onActionButtonClick"
-		
+		android:onClick="onActionButtonClick"
 		android:layout_alignParentRight="true"
 		android:layout_marginRight="0dip" 
 		android:layout_marginTop="4dip">
 	</ImageButton>
-	<ImageView android:layout_alignParentLeft="true" 
-	    android:id="@+id/contactimg" 
-	    android:layout_marginLeft="10dip"
-	    android:onClick="onActionButtonClick"
-	    android:layout_height="wrap_content" 
-	    android:layout_width="44dip" 
-	    android:background="@drawable/picimage" 
-	    android:layout_marginTop="4dip">
-	</ImageView>
-	<!--  	android:onClick="onActionButtonClick"
-	-->
+
+
 </RelativeLayout>
