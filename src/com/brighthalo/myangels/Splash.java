@@ -1,15 +1,15 @@
 package com.brighthalo.myangels;
 import com.urbanairship.analytics.InstrumentedActivity;
 import com.urbanairship.push.PushManager;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
-import android.app.Activity;
-import android.view.Menu;
 
-public class Splash extends InstrumentedActivity {
+
+public class Splash extends Activity {//InstrumentedActivity {
 	String prefName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +31,11 @@ public class Splash extends InstrumentedActivity {
 		@Override
 		public void onFinish() {
 			if (prefName.equalsIgnoreCase("")) {
-				startActivity(new Intent(Splash.this, Registration.class));
+				startActivity(new Intent(Splash.this, LangSelectionActivity.class));
 				finish();
 			}
 			if(!prefName.equalsIgnoreCase("")) {
-				startActivity(new Intent(Splash.this, Registration.class));
+				startActivity(new Intent(Splash.this, LangSelectionActivity.class));
 				finish();
 			}
 		}
