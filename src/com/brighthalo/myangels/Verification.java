@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 /* Verification module will be used to validate user number.
  * User registers -> Server replies with Verification Code
  * User confirms reception of verification Code
@@ -23,33 +24,35 @@ public class Verification extends Activity{
 	  super.onCreate(savedInstanceState);
 	
 	  setContentView(R.layout.verification_screen);
-	  skipBtn    = (Button)   findViewById(R.id.button_skip);
-	  doneBtn    = (Button)   findViewById(R.id.button_done);
-	  phoneNum   = (EditText) findViewById(R.id.phoneNum);
 	  verificatn = (EditText) findViewById(R.id.verify_code);
+	  phoneNum   = (EditText) findViewById(R.id.phoneNum);
 	  
 	  //setNativeKeyPadVisibility();
-	  setBtnListeners();
+	  setBtnControls();
 	}
 	
-   /* 'Done Btn' - will close this activity for now. 
-    * 'Skip Btn' - move to select angel group
-    * 'Quit Btn' - close application
-    */	
-	private void setBtnListeners(){
+	public void setBtnControls(){
+		  Button skipBtn, doneBtn;
+		  TextView screenTitle;
+		  skipBtn     = (Button)   findViewById(R.id.button_skip);
+		  doneBtn     = (Button)   findViewById(R.id.button_done);	
+		  screenTitle = (TextView) findViewById(R.id.activity_title);
+		  screenTitle.setText("Verification");
+
 	      skipBtn.setOnClickListener(new OnClickListener() {
 	  		public void onClick(View v) {
-	  			 Intent intent1 = new Intent(Verification.this,Registration.class);
+	  			 Intent intent1 = new Intent(Verification.this,AngelGroupSetupActivity.class);
 	             startActivity(intent1);
 	  		}
 	  	  });
-      
-      doneBtn.setOnClickListener(new OnClickListener() {
-  		public void onClick(View v) {
-  			 finish();
-  		}
-  	  });
-	}
+	      
+	      doneBtn.setOnClickListener(new OnClickListener() {
+	  		public void onClick(View v) {
+	  			Intent intent1 = new Intent(Verification.this,MainDiscussionActivity.class);
+	             startActivity(intent1);
+	             }
+	  	  });
+		}
 	
 	private void setNativeKeyPadVisibility(){
 		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 

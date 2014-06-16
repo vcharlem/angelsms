@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentProviderOperation;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
@@ -48,6 +50,8 @@ public class AngelGroupSetupActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.angelgroup_setup_screen);
+		setBtnControls();
+		
 		String [] from_colmn = {
 				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, 
 				ContactsContract.CommonDataKinds.Phone._ID
@@ -86,6 +90,29 @@ public class AngelGroupSetupActivity extends Activity {
 			});	
 		/*	//http://android-er.blogspot.com/2012/11/query-contacts-database-display-in.html */
 	     }
+	
+	public void setBtnControls(){
+		  Button skipBtn, doneBtn;
+		  TextView screenTitle;
+		  skipBtn     = (Button)   findViewById(R.id.button_skip);
+		  doneBtn     = (Button)   findViewById(R.id.button_done);	
+		  screenTitle = (TextView) findViewById(R.id.activity_title);
+		  screenTitle.setText("Group");
+
+	      skipBtn.setOnClickListener(new OnClickListener() {
+	  		public void onClick(View v) {
+	  			 Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
+	             startActivity(intent1);
+	  		}
+	  	  });
+	      
+	      doneBtn.setOnClickListener(new OnClickListener() {
+	  		public void onClick(View v) {
+	  			Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
+	             startActivity(intent1);
+	             }
+	  	  });
+		}
 	public void onActionButtonClick(View view) {
 		
 		cursor.moveToPosition(lvContacts.getPositionForView(view));

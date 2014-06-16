@@ -3,13 +3,12 @@
     android:layout_height="fill_parent"
     android:background="#FF7700" >
 
-      <include
-        android:id="@+id/bottom_btns"
+    <include
+        android:id="@+id/skip_done_btns"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/keypadview"
         android:layout_alignParentTop="true"
-        android:background="#FF7700" 
+        android:background="@color/app_backgrnd" 
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         layout="@layout/done_next_btn"

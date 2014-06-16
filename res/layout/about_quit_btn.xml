@@ -2,33 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#FF7700" 
+    android:background="@color/app_backgrnd" 
     android:layout_alignParentBottom="true"
    	android:layout_alignParentLeft="true"        
     android:gravity="center"
     tools:context=".MainActivity" >
 
-		        <Button
-		            android:layout_width="0dip"
-		            android:layout_height="@dimen/About_height"
-		            android:layout_weight="1"
-		            android:layout_alignParentBottom="true"
-		            android:layout_alignParentLeft="true"
-		            android:background="#FF7700"
-		            android:onClick="OnClickAbout"
-		            android:text="@string/ABOUT"
-		            android:textColor="@color/Black"
-		            android:textSize="@dimen/font_medium" />
-		
-		        <Button
-		            android:layout_width="0dip"
-		            android:layout_height="@dimen/About_height"
-		            android:layout_weight="1"		            
-		            android:layout_alignParentBottom="true"
-		            android:layout_alignParentRight="true"
-		            android:background="#FF7700"
-		            android:onClick="OnClickQuit"
-		            android:text="@string/QUIT"
-		            android:textColor="@color/Black"
-		            android:textSize="@dimen/font_medium" />
-		</LinearLayout>
+    <Button
+        android:id="@+id/about"
+        android:layout_width="0dip"
+        android:layout_height="@dimen/About_height"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/app_backgrnd"
+        android:onClick="OnClickAbout"
+        android:text="@string/ABOUT"
+        android:textColor="@color/app_btn_font"
+        android:textSize="@dimen/font_medium" />
+
+    <Button
+        android:id="@+id/quit"
+        android:layout_width="0dip"
+        android:layout_height="@dimen/About_height"
+        android:layout_weight="1"		            
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/app_backgrnd"
+        android:text="@string/QUIT"
+        android:textColor="@color/app_btn_font"
+        android:textSize="@dimen/font_medium" />
+        
+</LinearLayout>

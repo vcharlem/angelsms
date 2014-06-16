@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_backgrnd" 
+    android:layout_alignParentTop="true"
+    android:gravity="center"
+    tools:context=".MainActivity" >
+	
+    <Button
+        android:id="@+id/button_skip"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="8dp"
+        android:background="@color/app_backgrnd"
+        android:text="Skip"
+        android:textColor="@color/app_btn_font"
+        android:textSize="@dimen/font_medium" />
+    
+    <TextView
+        android:id="@+id/activity_title"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Title"
+        android:textColor="@color/White"
+        android:textSize="@dimen/font_medium" />
+
+    <Button
+        android:id="@+id/button_done"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        android:background="@color/app_backgrnd"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Next"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/font_medium" />
+</LinearLayout>

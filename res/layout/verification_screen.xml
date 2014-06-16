@@ -7,65 +7,26 @@
     tools:context=".MainActivity" >
     
     <RelativeLayout
-        android:background="#FF7700"
+        android:background="@color/app_backgrnd"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <LinearLayout
-            android:id="@+id/top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="Verification"
-                android:textColor="@color/White"
-                android:textSize="@dimen/font_medium" />
-        </LinearLayout>
-        
-	    <LinearLayout
-	        android:id="@+id/ll1"
-	        android:layout_width="match_parent"
+	     <include
+	        android:id="@+id/skip_done_btns"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
-	        android:layout_below="@id/top" >
-	
-	        <Button
-	            android:id="@+id/button_skip"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="8dp"
-	            android:background="#FF7700"
-	            android:onClick="OnClickAbout"
-	            android:text="Skip"
-	            android:textColor="@color/Black"
-	            android:textSize="@dimen/font_medium" />
-	
-	        <Button
-	            android:id="@+id/button_done"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentRight="true"
-	            android:layout_gravity="right"
-	            android:layout_marginLeft="200dp"
-	            android:layout_marginRight="5dp"
-	            android:background="#FF7700"
-	            android:gravity="center_vertical|center_horizontal|right"
-	            android:onClick="OnClickQuit"
-	            android:text="Done"
-	            android:textColor="@color/Black"
-	            android:textSize="@dimen/font_medium" />
-	    </LinearLayout>
-		
+	        android:background="@color/app_backgrnd" 
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        layout="@layout/done_next_btn"
+	        android:gravity="center" >
+	    </include>
+	    
       	<LinearLayout
       	    android:id="@+id/ll3"
       	    android:layout_width="match_parent"
       	    android:layout_height="wrap_content"
-      	    android:layout_below="@id/ll1"
+      	    android:layout_below="@id/skip_done_btns"
       	    android:gravity="center|center_horizontal" >
 
 	       <EditText
@@ -142,23 +103,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         layout="@layout/keypad"
-        android:background="#FF7700"
-        android:gravity="center" >
-
-    </include>
-
-    <include
-        android:id="@+id/bottom_btns"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/keypadview"
-        android:layout_alignParentBottom="true"
-        android:background="#FF7700" 
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        layout="@layout/about_quit_btn"
         android:gravity="center" >
     </include>
-   
+
 </RelativeLayout>
 </LinearLayout>

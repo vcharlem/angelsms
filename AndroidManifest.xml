@@ -32,6 +32,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="MainDiscussionActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light" >
+        </activity>        
+        <activity
             android:name="AngelGroupSetupActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -49,12 +55,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light" >
         </activity>
-        <activity
-            android:name="MainDiscussionActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
+
         <activity
             android:name="LangSelectionActivity"
             android:noHistory="true"

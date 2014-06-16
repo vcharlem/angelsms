@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/Black"
+    android:background="@color/app_backgrnd"
     android:orientation="horizontal"
     android:gravity="center"
     tools:context=".MainActivity" >
@@ -11,12 +11,24 @@
 	<RelativeLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:background="@color/Background" >
+	    android:background="@color/app_backgrnd" >
+
+		<include
+	        android:id="@+id/skip_done_btns"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:background="@color/app_backgrnd" 
+	        android:layout_centerHorizontal="true"
+	        layout="@layout/done_next_btn"
+	        android:gravity="center" >
+	    </include>
 
 	    <LinearLayout
 	        android:id="@+id/ll1"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/skip_done_btns"
 	        android:orientation="vertical" >
 
 	        <TextView
@@ -26,7 +38,7 @@
 	            android:layout_centerHorizontal="true"
 	            android:gravity="center_horizontal"
 	            android:text="Select Your Angels"
-	            android:textColor="@color/Black"
+	            android:textColor="@color/app_btn_font"
 	            android:textSize="@dimen/font_medium" />
 	    </LinearLayout>
 
@@ -45,7 +57,7 @@
 	                android:layout_weight="1"
 	                android:gravity="center"
 	                android:text="Contacts"
-	                android:textColor="@color/Black"
+	                android:textColor="@color/app_btn_font"
 	                android:textSize="@dimen/font_medium" >
 	            </TextView>
 
@@ -58,7 +70,7 @@
 	                android:layout_marginRight="5dp"
 	                android:gravity="center"
 	                android:text="Angels"
-	                android:textColor="@color/Black"
+	                android:textColor="@color/app_btn_font"
 	                android:textSize="@dimen/font_medium" >
 	            </TextView>
 	    </LinearLayout>
@@ -110,23 +122,10 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
 	                android:text="Contacts"
-	                android:textColor="@color/Black"
+	                android:textColor="@color/app_btn_font"
 	                android:textSize="@dimen/font_medium" />
 	        </LinearLayout>
 	    </LinearLayout>
-	    
-	  <include
-        android:id="@+id/bottom_btns"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:layout_alignParentBottom="true"
-        android:background="#FF7700" 
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="false"
-        layout="@layout/about_quit_btn"
-        android:gravity="center" >
-    </include>
 	    
 	</RelativeLayout>
 </LinearLayout>

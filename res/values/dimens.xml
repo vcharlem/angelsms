@@ -15,5 +15,5 @@
     <dimen name="button_width">80px</dimen>
     
     <dimen name="About_width">250px</dimen>
-    <dimen name="About_height">100px</dimen>
+    <dimen name="About_height">50px</dimen>
 </resources>
