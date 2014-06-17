@@ -45,7 +45,7 @@ public class AngelGroupSetupActivity extends Activity {
 	ImageButton btnclk;
 	public ArrayList<String> listAngels = new ArrayList<String>();
 	public ArrayList<ContactsContract> listAngelsContract = new ArrayList<ContactsContract>();
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.brighthalo.utilities.SMSBroadcaster;
 
 //import de.svenjacobs.loremipsum.LoremIpsum;
 
@@ -21,6 +23,7 @@ public class MainDiscussionActivity extends Activity {
 	private ListView lv;
 	private EditText editText1;
 	private static Random random;
+	private SMSBroadcaster smsSender;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,13 @@ public class MainDiscussionActivity extends Activity {
 
 		addItems();
 	}
+	
+/*	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }*/
 
 	private void addItems() {
 		adapter.add(new OneComment(true, "Hi Angels, lets talk"));
