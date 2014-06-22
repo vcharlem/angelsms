@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 	<uses-permission android:name="android.permission.READ_SMS"/>
+	<uses-permission android:name="android.permission.WRITE_SMS"/>
+	
         
     <application
         android:allowBackup="true"
@@ -25,7 +27,7 @@
 		
 		<!--  android:windowSoftInputMode="stateVisible|adjustResize"     -->
         <activity
-            android:name="Splash"
+            android:name="AngelGroupSetupActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,16 +35,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="MainDiscussionActivity"
+            android:name="Splash"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light" >
         </activity>        
         <activity
-            android:name="AngelGroupSetupActivity"
+            android:name="MainDiscussionActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light" >
+            android:screenOrientation="portrait"      
+            android:theme="@android:style/Theme.Light" >   
+         
         </activity>
         <activity
             android:name="Verification"
@@ -63,6 +66,17 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light" >
         </activity>        
+        <receiver android:name="MainDiscussionActivity"> 
+		    <intent-filter>
+	               <action android:name="com.brighthalo.action.intent.INCOMING_SMS_MSG" />
+           </intent-filter>
+        </receiver> 
+        <receiver android:name="com.brighthalo.utilities.SMSReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="com.brighthalo.intent.action.TEST"/>
+            </intent-filter>
+        </receiver>
         
         <service
             android:name="com.urbanairship.push.PushService"
