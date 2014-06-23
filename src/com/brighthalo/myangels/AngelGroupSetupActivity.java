@@ -1,17 +1,25 @@
 package com.brighthalo.myangels;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,79 +27,252 @@ import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.brighthalo.myangels.MyAngelConstants;
+import com.brighthalo.myangels.Constants;
+import com.brighthalo.myangels.MyContact;
 
 public class AngelGroupSetupActivity extends Activity {
-	public final static String CONTACTNAMESPACE = "ContactsContract.CommonDataKinds";
-	Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-	Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
+	public ArrayList<ContactsContract> listAngelsContract = new ArrayList<ContactsContract>();
 	public ArrayList<ContactsContract> listContacts = new ArrayList<ContactsContract>();
-	
-	String selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL";
-	String[] projection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};		
-	String[] from = {ContactsContract.Contacts.DISPLAY_NAME};
+	public ArrayList<MyContact> listOfContacts = new ArrayList<MyContact>();
+	public ArrayList<String> listAngels = new ArrayList<String>();
+	public ArrayList<String> listAngelsPNum = new ArrayList<String>();
+	public ArrayAdapter<String> angelAdapter;
+	public MyContact myContact;
+
+	public String phoneNumber, displayName;
+	public CursorLoader cursorLoader;
+
 	ListView lvContacts, lvAngels;
 	public Cursor cursor,	 cursor1, cursorAngels;
-	public ArrayAdapter<String> angelAdapter;
 	public TextView Angel1, Angel2, Angel3, Angel4;
 	ImageButton btnclk;
-	public ArrayList<String> listAngels = new ArrayList<String>();
-	public ArrayList<ContactsContract> listAngelsContract = new ArrayList<ContactsContract>();
-	
+	public Button setGroupListBtn, clearGroupListBtn;
+	public String [] from_colmn = {
+			ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, 
+			ContactsContract.CommonDataKinds.Phone._ID,
+			ContactsContract.CommonDataKinds.Phone.NUMBER
+	};
+	public String[] projection = new String[] { 
+			ContactsContract.CommonDataKinds.Phone._ID, 
+			ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+			ContactsContract.CommonDataKinds.Phone.NUMBER,
+			ContactsContract.CommonDataKinds.Phone.PHOTO_ID
+	};	
+	public String[] projection2 = new String[] { 
+			ContactsContract.Contacts._ID, 
+			ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+			ContactsContract.CommonDataKinds.Phone.NUMBER,
+			ContactsContract.CommonDataKinds.Phone.PHOTO_ID
+	};	
+	Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+	Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
+
+	public String[] from = new String [] {
+			ContactsContract.CommonDataKinds.Phone._ID, 
+			Constants.DISPLAY_NAME,
+			Constants.NUMBER,
+			ContactsContract.CommonDataKinds.Phone.PHOTO_ID};		
+	public int [] to_item_view = { R.id.contactName, R.id.contactimg };
+	public String selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.angelgroup_setup_screen);
-		setBtnControls();
-		
-		String [] from_colmn = {
-				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, 
-				ContactsContract.CommonDataKinds.Phone._ID
-		};
 		lvContacts = (ListView) findViewById(R.id.list);
 		Angel1	   = (TextView) findViewById(R.id.nameAngel1);
 		lvAngels   = (ListView) findViewById(R.id.listAngels);
+		
+		setGlobalBtnControls();
+		setLocalBtnControls();
+		
+		//CursorLoader cursorLoader = new CursorLoader( this, ContactsContract.Contacts.CONTENT_URI,  projection,  null, null,  null);
+		//cursor  = cursorLoader.loadInBackground();
+		//ContactsContract.Contacts.CONTENT_URI this URI is for 2.0+ version
+		cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,
+				 ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1" ,null, 
+				 ContactsContract.Contacts.DISPLAY_NAME+" ASC");
 
-		CursorLoader cursorLoader = new CursorLoader( this,  uri,  projection,  selection, null,  null);
-		cursor = cursorLoader.loadInBackground();
-		cursor1 = getContentResolver().query( uri, from_colmn, null, null,	null );
-		startManagingCursor(cursor1);
+		startManagingCursor(cursor);
+		
+		String[] columns = new String[] { 
+				ContactsContract.Contacts.DISPLAY_NAME, 
+				ContactsContract.Contacts._ID,
+				ContactsContract.Contacts._ID};
+		int[] names = new int[] { R.id.contactName , R.id.btnAction,R.id.contactimg };
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, columns, names);
+		
+		adapter.setViewBinder(new ViewBinder() {
 
-		int [] to_item_view = { R.id.contactName};
+			@Override
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				switch (view.getId()) {
+				case R.id.contactName:
+					((TextView)view).setText(cursor.getString(columnIndex));
+					break;
+				case R.id.btnAction:
+					ImageButton btnAction = (ImageButton) view;
+					String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+						btnAction.setBackgroundResource(R.drawable.callon);
+						btnAction.setTag("C"+cursor.getString(columnIndex));
+					break;
+				case R.id.contactimg:
+
+					try{
+						((ImageView)view).setImageBitmap(getContactPhoto(Long.parseLong(cursor.getString(columnIndex))));
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+					break;
+				default:
+					break;
+				}
+
+				return true;
+			}
+		});
+	    lvContacts.setAdapter(adapter);        
+
+		//MyContactCursorAdapter adapter =  new MyContactCursorAdapter(
+			//	this, R.layout.mycontact, cursor, projection, to_item_view, 0);
+		
+		//cursor = getContentResolver().query( uri, projection, selection, null,	null );
+		//startManagingCursor(cursor);
 		
 		angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
         lvAngels.setAdapter(angelAdapter);
 
-		SimpleCursorAdapter listAdapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor1, from_colmn, to_item_view, 0);
-	     ListAdapter adapter = new SimpleCursorAdapter(
-	                this, R.layout.mycontact, 
-	                cursor, from, to_item_view,  CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		//SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, 
+		//			cursor, from_colmn, to_item_view, 0);
 
-	    lvContacts.setAdapter(adapter);        
-		lvContacts.setOnItemClickListener(new OnItemClickListener() {
-			
-			  @Override
-			  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor.moveToPosition(position);
-				int indexName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+		//cursor.moveToFirst();
+		//phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+		//displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+		//int contactID	= cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
+		//listOfContacts.add(new MyContact(displayName, phoneNumber, null, contactID));
+		
+		//MyContactArrayAdapter adapter =  new MyContactArrayAdapter(
+			//							this, R.layout.mycontact, R.layout.mycontact, listOfContacts);
+		
 
-				Log.d("myAngels---", " ******  Debug Triggered");
-			    Toast.makeText(AngelGroupSetupActivity.this,
-			      "Click-Click ListItem Number " + position, Toast.LENGTH_LONG).show();
-			  }
-			});	
-		/*	//http://android-er.blogspot.com/2012/11/query-contacts-database-display-in.html */
-	     }
+	    //ListAdapter adapter = new SimpleCursorAdapter(
+	      //          this, R.layout.mycontact, cursor, from, to_item_view, 
+	        //        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+	    
+    }
+	public String getContactNumber (String contactId) {
+  	   Cursor cursorPhone = getContentResolver().query(
+			  ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+              new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+              ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE + " = " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
+              new String[]{contactId},
+              null);
+  	   
+        if (cursorPhone.moveToFirst()) {
+            phoneNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        }		 
+        cursorPhone.close();
+		return phoneNumber;
+	}
 	
-	public void setBtnControls(){
+	public void onActionButtonClick(View view) {
+		cursor.moveToPosition(lvContacts.getPositionForView(view));
+		try {
+				String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+		    	Log.d(Constants.DeBugTAG, "contactId number is: " + contactId);
+
+				phoneNumber = getContactNumber(contactId);
+				displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+		    	Log.d(Constants.DeBugTAG, "Phone number is: " + phoneNumber);
+		    	
+				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
+					listAngels.add(displayName);
+					//listAngelsPNum.add(phoneNumber);
+				}
+	    } catch(Exception e){
+	    		System.out.println(e.getMessage());
+	    }
+
+		Angel1.setText("");
+		
+		//Toast.makeText(AngelGroupSetupActivity.this,
+		//	      "Click ListIte NAME  " + displayName , //lvContacts.getPositionForView(view), 
+		//	      Toast.LENGTH_SHORT).show();
+	}
+	Bitmap loadContactPhoto (ContentResolver cr, long id) {
+		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+		InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+		
+		return BitmapFactory.decodeStream(input);
+	}
+	public Bitmap getContactPhoto(long contactID) {
+
+		Uri photoUri = null;
+		if(BitmapCache.getImage(contactID) == null){
+			ContentResolver cr = this.getContentResolver();
+			photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
+			if (photoUri != null) {
+				InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
+						cr, photoUri);
+				if (input != null) {
+					BitmapCache.putImage(contactID,BitmapFactory.decodeStream(input) );
+					return BitmapCache.getImage(contactID);
+				}
+			} else {
+				Bitmap defaultPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.picimage);
+				BitmapCache.putImage(contactID,defaultPhoto );
+				return BitmapCache.getImage(contactID);
+			}
+			
+		}else{
+			return BitmapCache.getImage(contactID);
+		}
+		Bitmap defaultPhoto = BitmapFactory.decodeResource(getResources(),  R.drawable.picimage);
+		return defaultPhoto;
+	}
+
+	public void setLocalBtnControls(){
+		setGroupListBtn   = (Button) findViewById(R.id.about);
+		clearGroupListBtn = (Button) findViewById(R.id.quit);
+		setGroupListBtn.setText("Save List");
+		clearGroupListBtn.setText("Clear List");
+
+		setGroupListBtn.setOnClickListener(new OnClickListener() {
+			String CUSTOM_INTENT = "com.brighthalo.intent.action.TEST";
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent();
+				i.setAction(CUSTOM_INTENT);
+				i.putExtra("AngelName", "Bright Halo");
+				i.putStringArrayListExtra("GroupList", listAngelsPNum);
+				sendBroadcast(i);
+			}
+		});
+
+		clearGroupListBtn.setOnClickListener(new OnClickListener() {
+			String CUSTOM_INTENT = "com.brighthalo.intent.action.TEST";
+			@Override
+			public void onClick(View v) {	
+				listAngels.clear();
+				Angel1.setText("");
+			}
+		  });
+	}
+	public void setGlobalBtnControls(){
 		  Button skipBtn, doneBtn;
 		  TextView screenTitle;
 		  skipBtn     = (Button)   findViewById(R.id.button_skip);
@@ -113,26 +294,8 @@ public class AngelGroupSetupActivity extends Activity {
 	             }
 	  	  });
 		}
-	public void onActionButtonClick(View view) {
-		
-		cursor.moveToPosition(lvContacts.getPositionForView(view));
-		
-		int indexName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-		int indexNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-		String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-		if ((listAngels.size() < MyAngelConstants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
-			listAngels.add(displayName);
-		}
-		//listAngelsContract.add(ContactsContract.Data.);
-		
-		Angel1.setText("");
-		
-		//Toast.makeText(AngelGroupSetupActivity.this,
-		//	      "Click ListIte NAME  " + displayName , //lvContacts.getPositionForView(view), 
-		//	      Toast.LENGTH_SHORT).show();
-	}
-	
+
 	public void setListViewAttributes(){
 		lvContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     	lvContacts.setCacheColorHint(00000000);
