@@ -43,6 +43,7 @@ public class AngelGroupSetupActivity extends Activity {
 	public ArrayList<ContactsContract> listAngelsContract = new ArrayList<ContactsContract>();
 	public ArrayList<ContactsContract> listContacts = new ArrayList<ContactsContract>();
 	public ArrayList<MyContact> listOfContacts = new ArrayList<MyContact>();
+	public ArrayList<Angel> listOfAngels= new ArrayList<Angel>();
 	public ArrayList<String> listAngels = new ArrayList<String>();
 	public ArrayList<String> listAngelsPNum = new ArrayList<String>();
 	public ArrayAdapter<String> angelAdapter;
@@ -110,8 +111,7 @@ public class AngelGroupSetupActivity extends Activity {
 				ContactsContract.Contacts._ID,
 				ContactsContract.Contacts._ID};
 		int[] names = new int[] { R.id.contactName , R.id.btnAction,R.id.contactimg };
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, 
-				columns, names);
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, columns, names);
 		
 		adapter.setViewBinder(new ViewBinder() {
 
@@ -128,7 +128,6 @@ public class AngelGroupSetupActivity extends Activity {
 						btnAction.setTag("C"+cursor.getString(columnIndex));
 					break;
 				case R.id.contactimg:
-
 					try{
 						((ImageView)view).setImageBitmap(getContactPhoto(Long.parseLong(cursor.getString(columnIndex))));
 					}
@@ -139,38 +138,12 @@ public class AngelGroupSetupActivity extends Activity {
 				default:
 					break;
 				}
-
 				return true;
 			}
 		});
-	    lvContacts.setAdapter(adapter);        
-
-		//MyContactCursorAdapter adapter =  new MyContactCursorAdapter(
-			//	this, R.layout.mycontact, cursor, projection, to_item_view, 0);
-		
-		//cursor = getContentResolver().query( uri, projection, selection, null,	null );
-		//startManagingCursor(cursor);
-		
+	    lvContacts.setAdapter(adapter);        		
 		angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
-        lvAngels.setAdapter(angelAdapter);
-
-		//SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, 
-		//			cursor, from_colmn, to_item_view, 0);
-
-		//cursor.moveToFirst();
-		//phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		//displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-		//int contactID	= cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
-		//listOfContacts.add(new MyContact(displayName, phoneNumber, null, contactID));
-		
-		//MyContactArrayAdapter adapter =  new MyContactArrayAdapter(
-			//							this, R.layout.mycontact, R.layout.mycontact, listOfContacts);
-		
-
-	    //ListAdapter adapter = new SimpleCursorAdapter(
-	      //          this, R.layout.mycontact, cursor, from, to_item_view, 
-	        //        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-	    
+        lvAngels.setAdapter(angelAdapter);	    
     }
 	public String getContactNumber (String contactId) {
   	   Cursor cursorPhone = getContentResolver().query(
@@ -202,6 +175,7 @@ public class AngelGroupSetupActivity extends Activity {
 				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
 					listAngels.add(displayName);
 					listAngelsPNum.add(phoneNumber);
+					listOfAngels.add(new Angel(displayName,phoneNumber, cursor.getPosition()));
 				}
 	    } catch(Exception e){
 	    		System.out.println(e.getMessage());
@@ -297,8 +271,9 @@ public class AngelGroupSetupActivity extends Activity {
 	      doneBtn.setOnClickListener(new OnClickListener() {
 	  		public void onClick(View v) {
 	  			Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
-	             startActivity(intent1);
-	             }
+	  			intent1.putParcelableArrayListExtra("listOfAngels", listOfAngels);
+	            startActivity(intent1);
+	        }
 	  	  });
 		}
 

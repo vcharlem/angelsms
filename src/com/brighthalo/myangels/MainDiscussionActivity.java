@@ -1,5 +1,6 @@
 package com.brighthalo.myangels;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
@@ -36,7 +37,7 @@ public class MainDiscussionActivity extends Activity {
 	public TextView myTextMsg;
 	public String msgReceived;
 	public String sendPhoneNumber;
-	
+	public ArrayList<Angel> listOfAngels = new ArrayList<Angel>();
 	private BroadcastReceiver myReceiver;
 	public IntentFilter smsIntent;
 	Window wind;
@@ -64,6 +65,13 @@ public class MainDiscussionActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		listOfAngels = getIntent().getParcelableArrayListExtra("listOfAngels");
+		
+		for (int x=0; x<listOfAngels.size(); x++){
+			Log.d(Constants.DeBugTAG, "MainDiscussion gets listOfAngels: " + listOfAngels.get(x).getName());
+
+		}
+		
 		setContentView(R.layout.main_discussion_activity);
 		setGlobalBtnControls();
 		setLocalBtnControls();
