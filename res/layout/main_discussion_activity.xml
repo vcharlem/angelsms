@@ -21,44 +21,43 @@
         layout="@layout/done_next_btn"
         android:gravity="center" >
     </include>
-    
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/skip_done_btns"
-        android:layout_above="@+id/form" >
-    </ListView>
-
+    <LinearLayout
+        android:id="@+id/lllistview1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/form"
+        android:layout_below="@+id/skip_done_btns" 
+        android:orientation="vertical" >
+	    <ListView
+	        android:id="@+id/listView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	    </ListView>
+	</LinearLayout>
     <LinearLayout
         android:id="@+id/form"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/bottom_btns"
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/myTextMsg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottom_btns"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:ems="10"
             android:inputType="text" />
-         </LinearLayout>
+    </LinearLayout>
         
-		 <include
-		       android:id="@+id/bottom_btns"
-		       android:layout_width="fill_parent"
-		       android:layout_height="wrap_content"
-		       android:layout_weight="10"
-		       android:layout_alignParentBottom="true"
-		       android:layout_centerHorizontal="true"
-		       android:layout_centerVertical="false"
-		       layout="@layout/about_quit_btn"
-		       android:gravity="center" >
-		  </include>
+	 <include
+	       android:id="@+id/bottom_btns"
+	       android:layout_width="fill_parent"
+	       android:layout_alignParentBottom="true"
+	       android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+	       layout="@layout/about_quit_btn"
+	       android:gravity="center" >
+	  </include>
 
 </RelativeLayout>

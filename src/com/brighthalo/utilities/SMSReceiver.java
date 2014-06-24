@@ -1,7 +1,7 @@
 package com.brighthalo.utilities;
 
 import java.util.ArrayList;
-import com.brighthalo.myangels.MyAngelConstants;
+import com.brighthalo.myangels.Constants;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,24 +12,30 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.brighthalo.myangels.MainDiscussionActivity;
+import com.brighthalo.myangels.SharedStorage;
 import com.brighthalo.myangels.Splash;
 
 public class SMSReceiver extends BroadcastReceiver{
-	public ArrayList<String> numberList;  
-
+	public static ArrayList<String> numberList;  
+	public SharedStorage sharedStorage;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		
+		sharedStorage = new SharedStorage(context);
+		Log.d(Constants.DeBugTAG, " Shared Storage found in Group " + sharedStorage.getAngelGroup());
+		
 		numberList = intent.getStringArrayListExtra("GroupList");
 		
 		if(intent.getAction().equals("com.brighthalo.intent.action.TEST")){
 			String name = intent.getStringExtra("AngelName");
 			if (!name.isEmpty()) {
-				Log.d(MyAngelConstants.DeBugTAG, "SMS Receiver got name: " + name);
+				Log.d(Constants.DeBugTAG, "SMS Receiver got name: " + name);
 			}
 
 			if(!numberList.isEmpty()){
 				for (int x=0; x<numberList.size(); x++)
-					Log.d(MyAngelConstants.DeBugTAG, "SMS Receiver got list " + numberList.get(x));
+					Log.d(Constants.DeBugTAG, "SMS Receiver got list " + numberList.get(x));
 			}
 		}
 
@@ -42,6 +48,13 @@ public class SMSReceiver extends BroadcastReceiver{
 	        String str = ""; 
 	        String phoneNUMBER = "";
 
+	        
+			if(!numberList.isEmpty()){
+				for (int x=0; x<numberList.size(); x++)
+					Log.d(Constants.DeBugTAG, "SMS Receiver Searching " + numberList.get(x));
+			}
+			
+			
 	        if (bundle != null){
 	            //---retrieve the SMS message received---
 	            Object[] pdus = (Object[]) bundle.get("pdus");
@@ -59,14 +72,18 @@ public class SMSReceiver extends BroadcastReceiver{
 	            }
 	            
 	            //---display the new SMS message---
-	            if(numberList.contains(phoneNUMBER)){ // only show if on angel group list
-	            	Intent i = new Intent(context, MainDiscussionActivity.class);
-	            	i.putExtra("senderPhone", phoneNUMBER);
-	            	i.putExtra("senderMsg", str.trim());
-	            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					Log.d(MyAngelConstants.DeBugTAG, "SMS Receiver message: " + i.getAction());
-					context.startActivity(i);
-	            }
+		            if(numberList.contains("5083221010")){ // only show if on angel group list
+		            	
+
+		            	
+		            	Intent i = new Intent(context, MainDiscussionActivity.class);
+		            	i.putExtra("senderPhone", phoneNUMBER);
+		            	i.putExtra("senderMsg", str.trim());
+		            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						Log.d(Constants.DeBugTAG, "SMS Receiver message: " + i.getAction());
+						context.startActivity(i);
+		            }
+	            
 	        }//end if(bundle != null){}
 	    }
 	}

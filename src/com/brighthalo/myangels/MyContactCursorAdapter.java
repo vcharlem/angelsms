@@ -1,6 +1,7 @@
 package com.brighthalo.myangels;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.ContentResolver;
@@ -40,6 +41,8 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 	public void bindView(View view, Context context, Cursor cursor) {
 		// TODO Auto-generated method stub
 		super.bindView(view, context, cursor);
+		Cursor c = getCursor();
+		
 		int columnId 		= cursor.getPosition();
 		int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 		String displayName  = cursor.getString(nameColumnIndex);
@@ -48,13 +51,14 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 		String phoneNumber  = cursor.getString(numColumnIndex);
 		
 		int photoColmnIndex	= cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_ID);
-		String photoUri		= cursor.getString(photoColmnIndex);
+		//String photoUri		= cursor.getString(photoColmnIndex);
 
 		TextView nameTView = (TextView) view.findViewById(R.id.contactName);
 		TextView phoneNumTView = (TextView) view.findViewById(R.id.phoneNum);
 		ImageView photoImageView = (ImageView) view.findViewById(R.id.contactimg);
 		
-    	Log.d(MyAngelConstants.DeBugTAG, "bindView position is: " + columnId);
+    	Log.d(Constants.DeBugTAG, "bindView cursor position is: " + columnId);
+    	Log.d(Constants.DeBugTAG, "bindView c position is: " + c.getPosition());
 
 		if(nameTView != null) 	  nameTView.setText(displayName);
 		if(phoneNumTView != null) phoneNumTView.setText(phoneNumber);
@@ -63,25 +67,28 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 			//photoImageView.setImageBitmap(loadContactPhoto(mContext.getContentResolver(),columnId));
 			//photoImageView.setImageBitmap(getContactPhoto(columnId));
 			//photoImageView.setImageBitmap(openPhoto(columnId));	
-			photoImageView.setImageBitmap(queryContactImage(columnId));	
+			photoImageView.setImageBitmap(getSimpleContactPhoto(c.getPosition()));	
 		}
 
 		int position = cursor.getPosition();
 	}
     @Override
     public View newView (Context context, Cursor cursor, ViewGroup parent) {
-		Cursor c = mCursor; //getCursor();
-	     Log.d(MyAngelConstants.DeBugTAG, "newView Cursor position is: " + c.getPosition());
+		Cursor c =  getCursor();
+	    Log.d(Constants.DeBugTAG, "newView Cursor position is: " + c.getPosition());
 
 		inflator = LayoutInflater.from(context);
-		view = inflator.inflate(mLayout, parent, false);
-		
-		int indexCol = c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+		view = inflator.inflate(this.mLayout, parent, false);
+		/*
+		int indexCol = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 		String displayName  = c.getString(indexCol);
 		
 		TextView nameTView = (TextView) view.findViewById(R.id.contactName);
 		if (nameTView != null) nameTView.setText(displayName);
-
+		
+		ImageView im = (ImageView) view.findViewById(R.id.contactimg);
+		im.setImageBitmap(getSimpleContactPhoto(c.getPosition()));
+*/
 		return view;
     }
 	@Override
@@ -89,7 +96,7 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 		// TODO Auto-generated method stub
 		return super.getViewBinder();
 	}	
-	 public Bitmap openPhoto(long contactId) {
+	public Bitmap openPhoto(long contactId) {
 	     Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
 	     Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
 	     
@@ -97,7 +104,7 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 	     Cursor cursor = mContext.getContentResolver().query(photoUri,
 	          new String[] {Contacts.PHOTO_ID}, null, null, null);
 	
-	     Log.d(MyAngelConstants.DeBugTAG, "openPhoto Cursor position is: " + cursor.getPosition());
+	     Log.d(Constants.DeBugTAG, "openPhoto Cursor position is: " + cursor.getPosition());
 	     
 	     
 	     if (cursor == null) {
@@ -116,14 +123,14 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 	     }
 	     return null;
 	 }
-	private Bitmap queryContactImage(int imageDataRow) {
+	public Bitmap queryContactImage(int imageDataRow) {
 	    Cursor c = mContext.getContentResolver().query(ContactsContract.Data.CONTENT_URI, new String[] {
 	        ContactsContract.CommonDataKinds.Photo.PHOTO
 	    }, ContactsContract.Data._ID + "=?", new String[] {
 	        Integer.toString(imageDataRow)
 	    }, null);
 	    
-    	Log.d(MyAngelConstants.DeBugTAG, "queryContactImage Cursor position is: " + c.getPosition());
+    	Log.d(Constants.DeBugTAG, "queryContactImage Cursor position is: " + c.getPosition());
 
 	    byte[] imageBytes = null;
 	    if (c != null) {
@@ -162,6 +169,37 @@ public class MyContactCursorAdapter extends SimpleCursorAdapter{
 		Bitmap defaultPhoto = BitmapFactory.decodeResource(mContext.getResources(),  R.drawable.picimage);
 		return defaultPhoto;
 	}
+	
+	public Bitmap getSimpleContactPhoto(long contactID) {
+		Bitmap defaultPhoto = null;
+		Bitmap contactPhoto = null;
+		Uri photoUri = null;
+		ContentResolver cr = mContext.getContentResolver();
+		photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);	
+
+		if (photoUri != null) {
+			InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, photoUri);
+			if (input != null) {
+				contactPhoto = BitmapFactory.decodeStream(input);
+				try {
+					input.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return contactPhoto;
+			} else {
+			     Log.d(Constants.DeBugTAG, "input is Null in getSimpleContactPhoto ");
+			}
+			
+		} else {
+		     Log.d(Constants.DeBugTAG, "photoUri is Null in getSimpleContactPhoto ");
+			 defaultPhoto = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.picimage);
+		}
+
+		return defaultPhoto;		
+	}
+	
 	Bitmap loadContactPhoto (ContentResolver cr, long id) {
 		Uri uri = ContentUris.withAppendedId(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, id);
 		InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);

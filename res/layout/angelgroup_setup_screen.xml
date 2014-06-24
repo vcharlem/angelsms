@@ -112,20 +112,30 @@
 	            <ListView
 	                android:id="@+id/listAngels"
 	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
+	                android:layout_height="fill_parent"
 	                android:clickable="false" >
 	            </ListView>
 
 	            <TextView
 	                android:id="@+id/nameAngel1"
 	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
+	                android:layout_height="fill_parent"
 	                android:gravity="center_horizontal"
 	                android:text="Contacts"
 	                android:textColor="@color/app_btn_font"
 	                android:textSize="@dimen/font_medium" />
 	        </LinearLayout>
 	    </LinearLayout>
+	
+		 <include
+	       android:id="@+id/bottom_btns"
+	       android:layout_width="fill_parent"
+	       android:layout_alignParentBottom="true"
+	       android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+	       layout="@layout/about_quit_btn"
+	       android:gravity="center" >
+	  </include>
 	    
 	</RelativeLayout>
 </LinearLayout>

@@ -41,7 +41,7 @@ public class MyContactArrayAdapter extends ArrayAdapter<MyContact>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//return super.getView(position, convertView, parent);
-    	Log.d(MyAngelConstants.DeBugTAG, "position number is: " + position);
+    	Log.d(Constants.DeBugTAG, "position number is: " + position);
     	
 		View v =  convertView;
     	

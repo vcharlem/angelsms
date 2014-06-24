@@ -47,7 +47,9 @@ public class AngelGroupSetupActivity extends Activity {
 	public ArrayList<String> listAngelsPNum = new ArrayList<String>();
 	public ArrayAdapter<String> angelAdapter;
 	public MyContact myContact;
-
+	
+	public SharedStorage sharedStorage;
+	
 	public String phoneNumber, displayName;
 	public CursorLoader cursorLoader;
 
@@ -92,11 +94,10 @@ public class AngelGroupSetupActivity extends Activity {
 		Angel1	   = (TextView) findViewById(R.id.nameAngel1);
 		lvAngels   = (ListView) findViewById(R.id.listAngels);
 		
+		
 		setGlobalBtnControls();
 		setLocalBtnControls();
-		
-		//CursorLoader cursorLoader = new CursorLoader( this, ContactsContract.Contacts.CONTENT_URI,  projection,  null, null,  null);
-		//cursor  = cursorLoader.loadInBackground();
+
 		//ContactsContract.Contacts.CONTENT_URI this URI is for 2.0+ version
 		cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,
 				 ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1" ,null, 
@@ -109,7 +110,8 @@ public class AngelGroupSetupActivity extends Activity {
 				ContactsContract.Contacts._ID,
 				ContactsContract.Contacts._ID};
 		int[] names = new int[] { R.id.contactName , R.id.btnAction,R.id.contactimg };
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, columns, names);
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, 
+				columns, names);
 		
 		adapter.setViewBinder(new ViewBinder() {
 
@@ -199,7 +201,7 @@ public class AngelGroupSetupActivity extends Activity {
 		    	
 				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
 					listAngels.add(displayName);
-					//listAngelsPNum.add(phoneNumber);
+					listAngelsPNum.add(phoneNumber);
 				}
 	    } catch(Exception e){
 	    		System.out.println(e.getMessage());
@@ -246,9 +248,12 @@ public class AngelGroupSetupActivity extends Activity {
 	public void setLocalBtnControls(){
 		setGroupListBtn   = (Button) findViewById(R.id.about);
 		clearGroupListBtn = (Button) findViewById(R.id.quit);
+
 		setGroupListBtn.setText("Save List");
 		clearGroupListBtn.setText("Clear List");
-
+		
+		sharedStorage = new SharedStorage(AngelGroupSetupActivity.this);
+		
 		setGroupListBtn.setOnClickListener(new OnClickListener() {
 			String CUSTOM_INTENT = "com.brighthalo.intent.action.TEST";
 
@@ -259,7 +264,9 @@ public class AngelGroupSetupActivity extends Activity {
 				i.setAction(CUSTOM_INTENT);
 				i.putExtra("AngelName", "Bright Halo");
 				i.putStringArrayListExtra("GroupList", listAngelsPNum);
-				sendBroadcast(i);
+				//sendBroadcast(i);
+				sharedStorage.setAngelGroup(listAngelsPNum);
+				
 			}
 		});
 
