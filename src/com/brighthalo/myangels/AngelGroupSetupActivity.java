@@ -111,10 +111,10 @@ public class AngelGroupSetupActivity extends Activity {
 				ContactsContract.Contacts._ID,
 				ContactsContract.Contacts._ID};
 		int[] names = new int[] { R.id.contactName , R.id.btnAction,R.id.contactimg };
+		@SuppressWarnings("deprecation")
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.mycontact, cursor, columns, names);
 		
 		adapter.setViewBinder(new ViewBinder() {
-
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 				switch (view.getId()) {
@@ -166,6 +166,7 @@ public class AngelGroupSetupActivity extends Activity {
 		cursor.moveToPosition(lvContacts.getPositionForView(view));
 		try {
 				String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+				int contactID	= cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID));
 		    	Log.d(Constants.DeBugTAG, "contactId number is: " + contactId);
 
 				phoneNumber = getContactNumber(contactId);
@@ -175,7 +176,7 @@ public class AngelGroupSetupActivity extends Activity {
 				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
 					listAngels.add(displayName);
 					listAngelsPNum.add(phoneNumber);
-					listOfAngels.add(new Angel(displayName,phoneNumber, cursor.getPosition()));
+					listOfAngels.add(new Angel(displayName,phoneNumber, contactID));
 				}
 	    } catch(Exception e){
 	    		System.out.println(e.getMessage());

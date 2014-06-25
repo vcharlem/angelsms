@@ -17,7 +17,7 @@ import android.content.ContextWrapper.*;
 /**
  * @author vlad
  */
-public class SharedStorage {
+public final class SharedStorage {
 	public static final String PREFERENCE_USER = "MyAngelStorage";
 	public static SharedPreferences mUserPreferences;
 	protected static Context mContext;
@@ -59,7 +59,7 @@ public class SharedStorage {
         try { obj = new JSONObject(jsonData); } catch(JSONException e) { e.printStackTrace(); }
         
 		try {
-      	  Log.i("Overwatch"," SvrAPI Saving user ID from JSon:" + String.valueOf(obj.getInt("id")) );
+      	  Log.d(Constants.DeBugTAG," SvrAPI Saving user ID from JSon:" + String.valueOf(obj.getInt("id")) );
 		  mUserEditor.putString("id", String.valueOf(obj.getInt("id")));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

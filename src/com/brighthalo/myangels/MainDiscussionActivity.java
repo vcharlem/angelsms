@@ -29,6 +29,7 @@ import com.brighthalo.utilities.SMSBroadcaster;
 
 public class MainDiscussionActivity extends Activity {
 	private DiscussArrayAdapter adapter;
+	private AngelDiscussArrayAdapter lAdapter;
 	private ListView lv;
 	private EditText editText1;
 	private static Random random;
@@ -45,21 +46,17 @@ public class MainDiscussionActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
 		//wind = this.getWindow();
 		//wind.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
 		//wind.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		//wind.addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
-
 		try{
 			sendPhoneNumber = getIntent().getExtras().getString("senderPhone");
 			msgReceived = getIntent().getExtras().getString("senderMsg");
 			Log.d(Constants.DeBugTAG, "MainDiscussion Got this message: " + msgReceived);
 			Log.d(Constants.DeBugTAG, "MainDiscussion from phone: " + sendPhoneNumber);
 			adapter.add(new OneComment(false, msgReceived));
-		} catch (NullPointerException  e) {
-			
-		}
+		} catch (NullPointerException  e) { }
 	}
 
 	@Override
@@ -67,25 +64,24 @@ public class MainDiscussionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		listOfAngels = getIntent().getParcelableArrayListExtra("listOfAngels");
 		
-		for (int x=0; x<listOfAngels.size(); x++){
-			Log.d(Constants.DeBugTAG, "MainDiscussion gets listOfAngels: " + listOfAngels.get(x).getName());
-
-		}
-		
 		setContentView(R.layout.main_discussion_activity);
 		setGlobalBtnControls();
 		setLocalBtnControls();
 		smsSender = new SMSBroadcaster(MainDiscussionActivity.this);
 		lv = (ListView) findViewById(R.id.listView1);
 
-		adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
-		lv.setAdapter(adapter);
-		
+		//adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
+		lAdapter = new AngelDiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
+		lv.setAdapter(lAdapter);
 		addItems();
 	}
 
 	private void addItems() {
-		adapter.add(new OneComment(true, "Hi Angels, do you know how to change a tire?!"));
+		//adapter.add(new OneComment(true, "Hi Angels, do you know how to change a tire?!"));
+		for (int x=0; x<listOfAngels.size(); x++){
+			Log.d(Constants.DeBugTAG, "MainDiscussion gets listOfAngels: " + listOfAngels.get(x).getName());
+			lAdapter.add(listOfAngels.get(x));
+		}	
 	}
 
 	private static int getRandomInteger(int aStart, int aEnd) {
@@ -150,9 +146,7 @@ public class MainDiscussionActivity extends Activity {
 	  		}
 	  	  });
 		}
-	
-   
-    
+
     /*	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
