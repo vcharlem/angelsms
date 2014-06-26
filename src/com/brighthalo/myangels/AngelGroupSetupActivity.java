@@ -126,6 +126,7 @@ public class AngelGroupSetupActivity extends Activity {
 					String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 						btnAction.setBackgroundResource(R.drawable.callon);
 						btnAction.setTag("C"+cursor.getString(columnIndex));
+						btnAction.setVisibility(View.GONE);
 					break;
 				case R.id.contactimg:
 					try{

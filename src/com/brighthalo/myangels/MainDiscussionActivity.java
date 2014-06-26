@@ -1,6 +1,7 @@
 package com.brighthalo.myangels;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Random;
 
 import android.app.Activity;
@@ -10,15 +11,19 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.view.Window;
 
@@ -39,13 +44,19 @@ public class MainDiscussionActivity extends Activity {
 	public String msgReceived;
 	public String sendPhoneNumber;
 	public ArrayList<Angel> listOfAngels = new ArrayList<Angel>();
+	
+	public Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
+
 	private BroadcastReceiver myReceiver;
 	public IntentFilter smsIntent;
 	Window wind;
+
+	public TextView sometext;
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+
 		//wind = this.getWindow();
 		//wind.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
 		//wind.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -53,9 +64,14 @@ public class MainDiscussionActivity extends Activity {
 		try{
 			sendPhoneNumber = getIntent().getExtras().getString("senderPhone");
 			msgReceived = getIntent().getExtras().getString("senderMsg");
+			View lineView = lv.getChildAt(hashtable.get(sendPhoneNumber));
+			
+			sometext = (TextView) lineView.findViewById(R.id.comment);
+			sometext.setText(msgReceived);
+			
 			Log.d(Constants.DeBugTAG, "MainDiscussion Got this message: " + msgReceived);
 			Log.d(Constants.DeBugTAG, "MainDiscussion from phone: " + sendPhoneNumber);
-			adapter.add(new OneComment(false, msgReceived));
+			//adapter.add(new OneComment(false, msgReceived));
 		} catch (NullPointerException  e) { }
 	}
 
@@ -70,7 +86,7 @@ public class MainDiscussionActivity extends Activity {
 		smsSender = new SMSBroadcaster(MainDiscussionActivity.this);
 		lv = (ListView) findViewById(R.id.listView1);
 
-		//adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
+	  //adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lAdapter = new AngelDiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lv.setAdapter(lAdapter);
 		addItems();
@@ -81,6 +97,7 @@ public class MainDiscussionActivity extends Activity {
 		for (int x=0; x<listOfAngels.size(); x++){
 			Log.d(Constants.DeBugTAG, "MainDiscussion gets listOfAngels: " + listOfAngels.get(x).getName());
 			lAdapter.add(listOfAngels.get(x));
+			hashtable.put(listOfAngels.get(x).getPhoneNumber(), x);
 		}	
 	}
 
@@ -93,7 +110,7 @@ public class MainDiscussionActivity extends Activity {
 		int randomNumber = (int) (fraction + aStart);
 		return randomNumber;
 	}
-	
+	public String outGoingTextMsg;
 	public void setLocalBtnControls(){
 		 sendBtn	  = (Button)   findViewById(R.id.quit);
 		 myTextMsg	  = (TextView) findViewById(R.id.myTextMsg);
@@ -106,8 +123,9 @@ public class MainDiscussionActivity extends Activity {
 					// If the event is a key-down event on the "enter" button
 					if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 						// Perform action on key press
-						adapter.add(new OneComment(false, myTextMsg.getText().toString()));
-						myTextMsg.setText("");
+						//adapter.add(new OneComment(false, myTextMsg.getText().toString()));
+						outGoingTextMsg = myTextMsg.getText().toString();
+						//myTextMsg.setText("");
 						return true;
 					}
 					return false;
@@ -118,11 +136,41 @@ public class MainDiscussionActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					smsSender.sendSmsByManager("508-322-1010", "Test from MyAngels");
+					//smsSender.sendSmsByManager("508-322-1010", "Test from MyAngels");
+					initiatePopupWindow();
 				}
 		 	});
-
 	}
+	
+	
+	public PopupWindow pwindo;
+	public Button btnClosePopup;
+	public TextView popupTxt;
+	public void initiatePopupWindow() {
+		try {
+			// We need to get the instance of the LayoutInflater
+			LayoutInflater inflater = (LayoutInflater) MainDiscussionActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View layout = inflater.inflate(R.layout.popup_msg, (ViewGroup) findViewById(R.id.popup_element));
+			pwindo = new PopupWindow(layout, 300, 370, true);
+			pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+			btnClosePopup = (Button) layout.findViewById(R.id.btn_close_popup);
+			btnClosePopup.setOnClickListener(cancel_button_click_listener);
+			popupTxt = (TextView) layout.findViewById(R.id.txtView);
+			popupTxt.setText(outGoingTextMsg);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	private OnClickListener cancel_button_click_listener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+		pwindo.dismiss();
+
+		}
+	};
+
 	public void setGlobalBtnControls(){
 		  Button skipBtn, doneBtn, sendBtn;//, nine11Btn;
 		  TextView screenTitle, myTextMsg;

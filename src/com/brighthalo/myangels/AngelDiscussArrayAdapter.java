@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 	private TextView countryName;
-	public TextView angelName;
+	public  TextView angelName;
 	private List<OneComment> countries = new ArrayList<OneComment>();
 	private ArrayList<Angel> listOfAngels = new ArrayList<Angel>();
 	private RelativeLayout wrapper;
@@ -39,7 +39,7 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 	public AngelDiscussArrayAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 		this.mContext = context;
-		//this.listOfAngels = listOfAngels;
+	  //this.listOfAngels = listOfAngels;
 	}
 
 	public int getCount() {
@@ -61,7 +61,7 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 		wrapper = (RelativeLayout) row.findViewById(R.id.wrapper);
 		Angel coment = getItem(position);
 		countryName = (TextView) row.findViewById(R.id.comment); 
-		//countryName.setText(coment.comment);
+	  //countryName.setText(coment.comment);
 		countryName.setText(listOfAngels.get(position).getName());
 		countryName.setBackgroundResource(R.drawable.bubble_yellow);
 		wrapper.setGravity(Gravity.LEFT);
@@ -71,11 +71,9 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 		angelName.setText(angel.getName() + " wrote:");
 
 		try{
-
-			//contactPhoto.setImageBitmap(getContactPhoto( angel.getContactId()) );
+		  //contactPhoto.setImageBitmap(getContactPhoto( angel.getContactId()) );
 			contactPhoto.setImageBitmap(BitmapCache.getImage((long) angel.getContactId()));
 			Log.d(Constants.DeBugTAG, ":::" + angel.getName() + " ::: " + angel.getContactId() );
-
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -83,5 +81,4 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 		}
 		return row;
 	}
-
 }

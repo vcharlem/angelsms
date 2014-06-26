@@ -1,6 +1,8 @@
 package com.brighthalo.utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.brighthalo.myangels.Constants;
 
 import android.content.BroadcastReceiver;
@@ -18,11 +20,20 @@ import com.brighthalo.myangels.Splash;
 public class SMSReceiver extends BroadcastReceiver{
 	public static ArrayList<String> numberList;  
 	public SharedStorage sharedStorage;
+	public String tmpList;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		
 		sharedStorage = new SharedStorage(context);
+		tmpList = sharedStorage.getAngelGroup();
+		numberList = new ArrayList<String>(Arrays.asList(tmpList.split(",")));
+		
+		if(!numberList.isEmpty()){
+			for (int x=0; x<numberList.size(); x++)
+				Log.d(Constants.DeBugTAG, "SharedStorage returns: " + numberList.get(x));
+		}		
+
 		Log.d(Constants.DeBugTAG, " Shared Storage found in Group " + sharedStorage.getAngelGroup());
 		
 		numberList = intent.getStringArrayListExtra("GroupList");
@@ -48,12 +59,20 @@ public class SMSReceiver extends BroadcastReceiver{
 	        String str = ""; 
 	        String phoneNUMBER = "";
 
-	        
-			if(!numberList.isEmpty()){
-				for (int x=0; x<numberList.size(); x++)
-					Log.d(Constants.DeBugTAG, "SMS Receiver Searching " + numberList.get(x));
-			}
-			
+			sharedStorage = new SharedStorage(context);
+			tmpList = sharedStorage.getAngelGroup();
+			numberList = new ArrayList<String>(Arrays.asList(tmpList.split(",")));
+
+			Log.d(Constants.DeBugTAG, "SharedStorage returns String: " + tmpList);
+
+			if(!numberList.isEmpty())
+				for (int x=0; x<numberList.size(); x++){
+					numberList.set(x, numberList.get(x).replaceAll("[^\\w\\s+]","").replaceAll("\\s+", ""));
+					if((numberList.get(x)).length() >=11)
+							numberList.set(x, numberList.get(x).substring(1));
+					
+					Log.d(Constants.DeBugTAG, "SharedStorage returns: " + numberList.get(x));
+			}	
 			
 	        if (bundle != null){
 	            //---retrieve the SMS message received---
@@ -72,10 +91,8 @@ public class SMSReceiver extends BroadcastReceiver{
 	            }
 	            
 	            //---display the new SMS message---
-		            if(numberList.contains("5083221010")){ // only show if on angel group list
-		            	
-
-		            	
+		            if(numberList.contains(phoneNUMBER)){ // only show if on angel group list
+		           		            	
 		            	Intent i = new Intent(context, MainDiscussionActivity.class);
 		            	i.putExtra("senderPhone", phoneNUMBER);
 		            	i.putExtra("senderMsg", str.trim());
