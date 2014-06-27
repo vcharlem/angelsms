@@ -47,6 +47,7 @@ public class AngelGroupSetupActivity extends Activity {
 	public ArrayList<String> listAngels = new ArrayList<String>();
 	public ArrayList<String> listAngelsPNum = new ArrayList<String>();
 	public ArrayAdapter<String> angelAdapter;
+	public SelectedAngelArrayAdapter angAdapter;
 	public MyContact myContact;
 	
 	public SharedStorage sharedStorage;
@@ -86,6 +87,7 @@ public class AngelGroupSetupActivity extends Activity {
 			ContactsContract.CommonDataKinds.Phone.PHOTO_ID};		
 	public int [] to_item_view = { R.id.contactName, R.id.contactimg };
 	public String selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL";
+	public boolean contactPhotoAvailable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -94,8 +96,7 @@ public class AngelGroupSetupActivity extends Activity {
 		lvContacts = (ListView) findViewById(R.id.list);
 		Angel1	   = (TextView) findViewById(R.id.nameAngel1);
 		lvAngels   = (ListView) findViewById(R.id.listAngels);
-		
-		
+
 		setGlobalBtnControls();
 		setLocalBtnControls();
 
@@ -130,7 +131,11 @@ public class AngelGroupSetupActivity extends Activity {
 					break;
 				case R.id.contactimg:
 					try{
-						((ImageView)view).setImageBitmap(getContactPhoto(Long.parseLong(cursor.getString(columnIndex))));
+						Bitmap tempPhoto = getContactPhoto(Long.parseLong(cursor.getString(columnIndex)));
+						if(contactPhotoAvailable)
+							((ImageView)view).setImageBitmap(tempPhoto);
+						else
+							((ImageView)view).setVisibility(View.GONE);
 					}
 					catch(Exception e){
 						e.printStackTrace();
@@ -144,7 +149,10 @@ public class AngelGroupSetupActivity extends Activity {
 		});
 	    lvContacts.setAdapter(adapter);        		
 		angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
-        lvAngels.setAdapter(angelAdapter);	    
+		
+		angAdapter = new SelectedAngelArrayAdapter(this, R.layout.mycontactangel);
+		
+        lvAngels.setAdapter(angAdapter);	    
     }
 	public String getContactNumber (String contactId) {
   	   Cursor cursorPhone = getContentResolver().query(
@@ -177,6 +185,7 @@ public class AngelGroupSetupActivity extends Activity {
 				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
 					listAngels.add(displayName);
 					listAngelsPNum.add(phoneNumber);
+					angAdapter.add(new Angel(displayName,phoneNumber, contactID));
 					listOfAngels.add(new Angel(displayName,phoneNumber, contactID));
 				}
 	    } catch(Exception e){
@@ -196,14 +205,13 @@ public class AngelGroupSetupActivity extends Activity {
 		return BitmapFactory.decodeStream(input);
 	}
 	public Bitmap getContactPhoto(long contactID) {
-
 		Uri photoUri = null;
 		if(BitmapCache.getImage(contactID) == null){
 			ContentResolver cr = this.getContentResolver();
 			photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
 			if (photoUri != null) {
-				InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-						cr, photoUri);
+				contactPhotoAvailable = true;
+				InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, photoUri);
 				if (input != null) {
 					BitmapCache.putImage(contactID,BitmapFactory.decodeStream(input) );
 					return BitmapCache.getImage(contactID);
@@ -213,7 +221,6 @@ public class AngelGroupSetupActivity extends Activity {
 				BitmapCache.putImage(contactID,defaultPhoto );
 				return BitmapCache.getImage(contactID);
 			}
-			
 		}else{
 			return BitmapCache.getImage(contactID);
 		}
@@ -224,10 +231,8 @@ public class AngelGroupSetupActivity extends Activity {
 	public void setLocalBtnControls(){
 		setGroupListBtn   = (Button) findViewById(R.id.about);
 		clearGroupListBtn = (Button) findViewById(R.id.quit);
-
 		setGroupListBtn.setText("Save List");
 		clearGroupListBtn.setText("Clear List");
-		
 		sharedStorage = new SharedStorage(AngelGroupSetupActivity.this);
 		
 		setGroupListBtn.setOnClickListener(new OnClickListener() {
@@ -242,7 +247,13 @@ public class AngelGroupSetupActivity extends Activity {
 				i.putStringArrayListExtra("GroupList", listAngelsPNum);
 				//sendBroadcast(i);
 				sharedStorage.setAngelGroup(listAngelsPNum);
+				//sharedStorage.setAngelList(listOfAngels);
+				listOfAngels = sharedStorage.getAngelList();
+				listOfAngels.clear();
 				
+	  			Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
+	  			intent1.putParcelableArrayListExtra("listOfAngels", listOfAngels);
+	            startActivity(intent1);
 			}
 		});
 
@@ -259,9 +270,12 @@ public class AngelGroupSetupActivity extends Activity {
 		  Button skipBtn, doneBtn;
 		  TextView screenTitle;
 		  skipBtn     = (Button)   findViewById(R.id.button_skip);
+		  skipBtn.setVisibility(View.GONE);
 		  doneBtn     = (Button)   findViewById(R.id.button_done);	
+		  doneBtn.setVisibility(View.GONE);
+		  
 		  screenTitle = (TextView) findViewById(R.id.activity_title);
-		  screenTitle.setText("Group");
+		  screenTitle.setText("Select Your Angels");
 
 	      skipBtn.setOnClickListener(new OnClickListener() {
 	  		public void onClick(View v) {

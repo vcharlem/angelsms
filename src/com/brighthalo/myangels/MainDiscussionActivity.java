@@ -15,6 +15,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.Window;
 
 import android.view.WindowManager.LayoutParams;
@@ -78,7 +81,12 @@ public class MainDiscussionActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SharedStorage sharedStorage = new SharedStorage(MainDiscussionActivity.this);
 		listOfAngels = getIntent().getParcelableArrayListExtra("listOfAngels");
+		
+		if (listOfAngels.isEmpty()) {
+			listOfAngels = sharedStorage.getAngelList();
+		}
 		
 		setContentView(R.layout.main_discussion_activity);
 		setGlobalBtnControls();
@@ -89,16 +97,16 @@ public class MainDiscussionActivity extends Activity {
 	  //adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lAdapter = new AngelDiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lv.setAdapter(lAdapter);
-		addItems();
+		addAngelsToThisView();
 	}
 
-	private void addItems() {
+	private void addAngelsToThisView() {
 		//adapter.add(new OneComment(true, "Hi Angels, do you know how to change a tire?!"));
 		for (int x=0; x<listOfAngels.size(); x++){
 			Log.d(Constants.DeBugTAG, "MainDiscussion gets listOfAngels: " + listOfAngels.get(x).getName());
 			lAdapter.add(listOfAngels.get(x));
 			hashtable.put(listOfAngels.get(x).getPhoneNumber(), x);
-		}	
+		}
 	}
 
 	private static int getRandomInteger(int aStart, int aEnd) {
@@ -195,10 +203,31 @@ public class MainDiscussionActivity extends Activity {
 	  	  });
 		}
 
-    /*	
+    	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }*/
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+        	case R.id.menu_settings:
+        		Toast.makeText(this, "You pressed Menu Settings!",
+                     Toast.LENGTH_LONG).show();
+        		return true;
+        	case R.id.angel_groupsettings:
+        		Intent intent=new Intent(MainDiscussionActivity.this,AngelGroupSetupActivity.class);
+        		startActivity(intent);
+        		finish();
+        		return true;
+        	//	Toast.makeText(this, "You pressed the Setting!",
+        	//				Toast.LENGTH_LONG).show(); break;
+        	default:
+        		return super.onOptionsItemSelected(item);
+        }
+    }    
 }

@@ -30,7 +30,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@+id/skip_done_btns"
 	        android:orientation="vertical" >
-
+<!-- 
 	        <TextView
 	            android:id="@+id/app_title"
 	            android:layout_width="match_parent"
@@ -39,7 +39,8 @@
 	            android:gravity="center_horizontal"
 	            android:text="Select Your Angels"
 	            android:textColor="@color/app_btn_font"
-	            android:textSize="@dimen/font_medium" />
+	            android:textSize="@dimen/font_medium" /> 
+-->
 	    </LinearLayout>
 
 	    <LinearLayout

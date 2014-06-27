@@ -3,10 +3,14 @@
  */
 package com.brighthalo.myangels;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,31 +23,59 @@ import android.content.ContextWrapper.*;
  */
 public final class SharedStorage {
 	public static final String PREFERENCE_USER = "MyAngelStorage";
-	public static SharedPreferences mUserPreferences;
 	protected static Context mContext;
-	public JSONObject obj = null;
-	public SharedPreferences.Editor mUserEditor = null;
+	public static SharedPreferences mUserPreferences;
 	
-	public void setAngelGroup(ArrayList<String> group) {
+	public JSONObject obj = null;
+	public static SharedPreferences.Editor mUserEditor = null;
+	public SharedStorage (Context context) {
+		mContext = context;
 		mUserPreferences = mContext.getSharedPreferences(PREFERENCE_USER, Context.MODE_PRIVATE);
-		SharedPreferences.Editor mUserEditor = mUserPreferences.edit();	
-		
-		mUserEditor.putString("group", group.toString() );
+		mUserEditor = mUserPreferences.edit();			
+	}
 
+	public boolean setAngelList(ArrayList<Angel> listOfAngels){
+
+		Gson gson = new Gson();
+		String json = gson.toJson(listOfAngels);
+		mUserEditor.putString("listOfAngels", json);
+		
+		if (mUserEditor.commit()){ return true; } else { return false; }	
+		}
+	public ArrayList <Angel> getAngelList(){
+		Gson gson = new Gson();
+		ArrayList <Angel> listOfAngels = new ArrayList<Angel>();
+		String json = mUserPreferences.getString("listOfAngels","");
+		listOfAngels = gson.fromJson(json, new TypeToken<ArrayList<Angel>>(){}.getType());
+
+		return listOfAngels;
+	}
+	public boolean setAcceptance(){
+		mUserEditor.putString("accept", "Accetped");
+		if (mUserEditor.commit()){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getAcceptance(){
+		String Accptance =  mUserPreferences.getString("accept", "");
+		if (!Accptance.isEmpty()) 
+			return true;
+		else
+			return false;
+	}
+
+	public void setAngelGroup(ArrayList<String> group) {
+		mUserEditor.putString("group", group.toString() );
 	   if(mUserEditor.commit()) {
 	    	Toast.makeText(mContext,"Saved Your List", Toast.LENGTH_LONG).show();
 	   }	
 	}
 	public String getAngelGroup() {
-		mUserPreferences = mContext.getSharedPreferences(PREFERENCE_USER, Context.MODE_PRIVATE);
-		
-		String listOfAngels =  mUserPreferences.getString("group", "Nothing Back");
+		String listOfAngels =  mUserPreferences.getString("group", "");
 		return listOfAngels;
-	}
-	public SharedStorage (Context context) {
-		mContext = context;
-		mUserPreferences = mContext.getSharedPreferences(PREFERENCE_USER, Context.MODE_PRIVATE);
-		mUserEditor = mUserPreferences.edit();			
 	}
 
 	public String fetchMyUserId(){		
