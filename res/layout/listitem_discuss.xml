@@ -14,7 +14,8 @@
       	    android:id="@+id/angelname"
       	    android:layout_width="wrap_content"
       	    android:layout_height="wrap_content"
-      	    android:text="written by: name here"/>
+      	    android:text="written by: name here"
+      	    android:textColor="@color/Black"/>
     </LinearLayout>
 
    <LinearLayout

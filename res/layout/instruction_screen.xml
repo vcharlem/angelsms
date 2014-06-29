@@ -1,0 +1,59 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/app_backgrnd"
+    android:orientation="horizontal"
+    android:gravity="center"
+    tools:context=".MainActivity" >
+    
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@color/app_backgrnd" >
+
+		<include
+	        android:id="@+id/skip_done_btns"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:background="@color/app_backgrnd" 
+	        android:layout_centerHorizontal="true"
+	        layout="@layout/done_next_btn"
+	        android:gravity="center" >
+	    </include>
+
+
+	    <LinearLayout
+	        android:id="@+id/ll2"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="false"
+	        android:layout_below="@id/skip_done_btns"
+	        android:orientation="horizontal" >
+
+	            <TextView
+	                android:layout_width="0dip"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:gravity="center"
+	                android:text="Welcome"
+	                android:textColor="@color/app_btn_font"
+	                android:textSize="@dimen/font_medium" >
+	            </TextView>
+	    </LinearLayout>
+	
+		 <include
+	       android:id="@+id/bottom_btns"
+	       android:layout_width="fill_parent"
+	       android:layout_alignParentBottom="true"
+	       android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+	       layout="@layout/about_quit_btn"
+	       android:gravity="center" >
+	  </include>
+	    
+	</RelativeLayout>
+</LinearLayout>

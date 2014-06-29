@@ -25,7 +25,7 @@
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="Title"
-        android:textColor="@color/White"
+        android:textColor="@color/Black"
         android:textSize="@dimen/font_medium" />
 
     <Button

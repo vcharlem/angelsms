@@ -41,7 +41,7 @@ public final class SharedStorage {
 		mUserEditor.putString("listOfAngels", json);
 		
 		if (mUserEditor.commit()){ return true; } else { return false; }	
-		}
+	}
 	public ArrayList <Angel> getAngelList(){
 		Gson gson = new Gson();
 		ArrayList <Angel> listOfAngels = new ArrayList<Angel>();

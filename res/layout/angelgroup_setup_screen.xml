@@ -86,16 +86,17 @@
 
 	        <LinearLayout
 	            android:id="@+id/ll3"
-	            android:layout_width="0dip"
+	            android:layout_width="wrap_content"
 	            android:layout_height="fill_parent"
 	            android:layout_weight="1"
+	            android:layout_above="@+id/bottom_btns"
 	            android:layout_toLeftOf="@+id/ll4"
 	            android:orientation="vertical" >
 
 	            <ListView
 	                android:id="@+id/list"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
 	                android:layout_marginLeft="5dp"
 	                android:clickable="false" >
 	            </ListView>
@@ -103,16 +104,17 @@
 
 	        <LinearLayout
 	            android:id="@+id/ll4"
-	            android:layout_width="0dip"
+	            android:layout_width="wrap_content"
 	            android:layout_height="fill_parent"
 	            android:layout_weight="1"
 	            android:layout_toRightOf="@+id/ll3"
+	            android:layout_above="@+id/bottom_btns"
 	            android:layout_gravity="center_vertical"
 	            android:orientation="vertical" >
 
 	            <ListView
 	                android:id="@+id/listAngels"
-	                android:layout_width="fill_parent"
+	                android:layout_width="wrap_content"
 	                android:layout_height="fill_parent"
 	                android:clickable="false" >
 	            </ListView>
@@ -120,9 +122,9 @@
 	            <TextView
 	                android:id="@+id/nameAngel1"
 	                android:layout_width="wrap_content"
-	                android:layout_height="fill_parent"
+	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
-	                android:text="Contacts"
+	                android:text=""
 	                android:textColor="@color/app_btn_font"
 	                android:textSize="@dimen/font_medium" />
 	        </LinearLayout>

@@ -12,7 +12,7 @@ import com.brighthalo.myangels.SharedStorage;
 public class Splash extends Activity {//InstrumentedActivity {
 	String  prefName;
 	Boolean isTermConditionAccepted;
-	Boolean hasAngelGroup;
+	Boolean noAngelsInList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,10 @@ public class Splash extends Activity {//InstrumentedActivity {
 		setContentView(R.layout.splash);
 		SharedStorage sharedStorage = new SharedStorage(Splash.this);
 		isTermConditionAccepted = sharedStorage.getAcceptance();
-		hasAngelGroup = (sharedStorage.getAngelGroup().isEmpty());
+		if (sharedStorage.getAngelList() == null)
+			noAngelsInList = true;
+		else 
+			noAngelsInList = false;
 		
 		// use for fetching UA APID for registration String apid = PushManager.shared().getAPID();
         // Log.d("myAngels","myAngels onCreate - App APID: " + apid);
@@ -34,11 +37,11 @@ public class Splash extends Activity {//InstrumentedActivity {
 		}
 		@Override
 		public void onFinish() {
-			if(hasAngelGroup) {
-				startActivity(new Intent(Splash.this, MainDiscussionActivity.class));
+			if(noAngelsInList) {
+				startActivity(new Intent(Splash.this, AngelGroupSetupActivity.class));
 				finish();			
 			} else {
-				startActivity(new Intent(Splash.this, AngelGroupSetupActivity.class));
+				startActivity(new Intent(Splash.this, MainDiscussionActivity.class));
 				finish();	
 			/*
 				if (isTermConditionAccepted) {

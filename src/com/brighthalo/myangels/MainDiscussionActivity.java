@@ -83,11 +83,7 @@ public class MainDiscussionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		SharedStorage sharedStorage = new SharedStorage(MainDiscussionActivity.this);
 		listOfAngels = getIntent().getParcelableArrayListExtra("listOfAngels");
-		
-		if (listOfAngels.isEmpty()) {
-			listOfAngels = sharedStorage.getAngelList();
-		}
-		
+
 		setContentView(R.layout.main_discussion_activity);
 		setGlobalBtnControls();
 		setLocalBtnControls();
@@ -97,7 +93,19 @@ public class MainDiscussionActivity extends Activity {
 	  //adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lAdapter = new AngelDiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
 		lv.setAdapter(lAdapter);
-		addAngelsToThisView();
+		
+		if(listOfAngels != null) {
+			if (!listOfAngels.isEmpty()) {
+				addAngelsToThisView();
+				return;
+			}
+		}
+		
+		if(!sharedStorage.getAngelList().isEmpty()) {
+			listOfAngels = sharedStorage.getAngelList();
+			addAngelsToThisView();
+			return;
+		}
 	}
 
 	private void addAngelsToThisView() {
@@ -188,6 +196,9 @@ public class MainDiscussionActivity extends Activity {
 		  
 		  screenTitle.setText("Chat");
 
+		  skipBtn.setVisibility(View.GONE);
+		  doneBtn.setVisibility(View.GONE);
+		  screenTitle.setVisibility(View.GONE);
 		  skipBtn.setOnClickListener(new OnClickListener() {
 	  		public void onClick(View v) {
 	  			 Intent intent1 = new Intent(MainDiscussionActivity.this,Splash.class);

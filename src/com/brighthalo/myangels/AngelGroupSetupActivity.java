@@ -24,6 +24,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.ListView;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
@@ -34,6 +37,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import com.brighthalo.myangels.Constants;
@@ -58,6 +62,7 @@ public class AngelGroupSetupActivity extends Activity {
 	ListView lvContacts, lvAngels;
 	public Cursor cursor,	 cursor1, cursorAngels;
 	public TextView Angel1, Angel2, Angel3, Angel4;
+	public LinearLayout linearLayout;
 	ImageButton btnclk;
 	public Button setGroupListBtn, clearGroupListBtn;
 	public String [] from_colmn = {
@@ -88,11 +93,15 @@ public class AngelGroupSetupActivity extends Activity {
 	public int [] to_item_view = { R.id.contactName, R.id.contactimg };
 	public String selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL";
 	public boolean contactPhotoAvailable;
+	public WindowManager windowManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
+        windowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.angelgroup_setup_screen);
+		linearLayout = (LinearLayout) findViewById(R.id.ll3);
 		lvContacts = (ListView) findViewById(R.id.list);
 		Angel1	   = (TextView) findViewById(R.id.nameAngel1);
 		lvAngels   = (ListView) findViewById(R.id.listAngels);
@@ -124,7 +133,8 @@ public class AngelGroupSetupActivity extends Activity {
 					break;
 				case R.id.btnAction:
 					ImageButton btnAction = (ImageButton) view;
-					String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+					String displayName = cursor.getString(cursor.getColumnIndex(
+											ContactsContract.Contacts.DISPLAY_NAME));
 						btnAction.setBackgroundResource(R.drawable.callon);
 						btnAction.setTag("C"+cursor.getString(columnIndex));
 						btnAction.setVisibility(View.GONE);
@@ -147,13 +157,38 @@ public class AngelGroupSetupActivity extends Activity {
 				return true;
 			}
 		});
-	    lvContacts.setAdapter(adapter);        		
-		angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
-		
+	    lvContacts.setAdapter(adapter);
+	    
+	    adjustListViewWidthSize("fullscreen");
+	    angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
 		angAdapter = new SelectedAngelArrayAdapter(this, R.layout.mycontactangel);
-		
-        lvAngels.setAdapter(angAdapter);	    
+        lvAngels.setAdapter(angAdapter);
     }
+	
+	public enum ScreenWidth {fullscreen, halfscreen};
+	public void adjustListViewWidthSize(String widthSize){
+        int width = windowManager.getDefaultDisplay().getWidth();
+
+		ViewGroup.LayoutParams catman = lvContacts.getLayoutParams();
+		ViewGroup.LayoutParams catman2 = lvContacts.getLayoutParams();
+		
+		ScreenWidth widthsize = ScreenWidth.valueOf(widthSize); 
+
+		switch(widthsize){
+			case fullscreen: width = (int) (width * 0.9);		
+						 	 lvAngels.setVisibility(View.GONE);
+				break;
+			case halfscreen: width = width /2;
+			 			 	 lvAngels.setVisibility(View.VISIBLE);
+				break;
+			default    : ;
+		}
+		catman.width = width;
+		catman2.width = width;
+
+		lvContacts.setLayoutParams(catman);
+		lvAngels.setLayoutParams(catman2);
+	}
 	public String getContactNumber (String contactId) {
   	   Cursor cursorPhone = getContentResolver().query(
 			  ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -165,13 +200,16 @@ public class AngelGroupSetupActivity extends Activity {
               null);
   	   
         if (cursorPhone.moveToFirst()) {
-            phoneNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            phoneNumber = cursorPhone.getString(cursorPhone.
+            		getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
         }		 
         cursorPhone.close();
 		return phoneNumber;
 	}
 	
 	public void onActionButtonClick(View view) {
+		adjustListViewWidthSize("halfscreen");
+
 		cursor.moveToPosition(lvContacts.getPositionForView(view));
 		try {
 				String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
@@ -247,9 +285,9 @@ public class AngelGroupSetupActivity extends Activity {
 				i.putStringArrayListExtra("GroupList", listAngelsPNum);
 				//sendBroadcast(i);
 				sharedStorage.setAngelGroup(listAngelsPNum);
-				//sharedStorage.setAngelList(listOfAngels);
-				listOfAngels = sharedStorage.getAngelList();
-				listOfAngels.clear();
+				sharedStorage.setAngelList(listOfAngels);
+				//listOfAngels = sharedStorage.getAngelList();
+				//listOfAngels.clear();
 				
 	  			Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
 	  			intent1.putParcelableArrayListExtra("listOfAngels", listOfAngels);
