@@ -47,7 +47,6 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 	}
 
 	public Angel getItem(int index) {
-	//	return this.countries.get(index);
 		return this.listOfAngels.get(index);
 	}
 
@@ -61,11 +60,11 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 		wrapper = (RelativeLayout) row.findViewById(R.id.wrapper);
 		Angel coment = getItem(position);
 		countryName = (TextView) row.findViewById(R.id.comment); 
-	  //countryName.setText(coment.comment);
-		countryName.setText(listOfAngels.get(position).getName());
 		countryName.setBackgroundResource(R.drawable.bubble_yellow);
 		wrapper.setGravity(Gravity.LEFT);
 		Angel angel =  listOfAngels.get(position);
+		countryName.setText(angel.getLastComment());
+
 		contactPhoto = (ImageView) row.findViewById(R.id.angelimg); 
 		angelName = (TextView) row.findViewById(R.id.angelname);
 		angelName.setText(angel.getName() + " wrote:");
@@ -73,11 +72,11 @@ public class AngelDiscussArrayAdapter extends ArrayAdapter<Angel> {
 		try{
 		  //contactPhoto.setImageBitmap(getContactPhoto( angel.getContactId()) );
 			contactPhoto.setImageBitmap(BitmapCache.getImage((long) angel.getContactId()));
-			Log.d(Constants.DeBugTAG, ":::" + angel.getName() + " ::: " + angel.getContactId() );
+			//Log.d(Constants.DeBugTAG, ":::" + angel.getName() + " ::: " + angel.getContactId() );
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Log.d(Constants.DeBugTAG, ":::" + angel.getName() + " ::: " + angel.getContactId() );
+			//Log.d(Constants.DeBugTAG, ":::" + angel.getName() + " ::: " + angel.getContactId() );
 		}
 		return row;
 	}

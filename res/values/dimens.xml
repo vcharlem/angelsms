@@ -9,6 +9,7 @@
     <dimen name="font_large">44dp</dimen>
     <dimen name="font_medium">24dp</dimen>
     <dimen name="font_small">10dp</dimen>
+    <dimen name="font_welcome">18dp</dimen>
     
     <dimen name="edit_box_width">400px</dimen>
     <dimen name="edit_box_height">40px</dimen>

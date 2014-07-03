@@ -17,8 +17,7 @@ public class BtnControls extends Activity{
 	}
 
 
-	public void setBtnControls(final Context mContext){
-		
+	public void setLocalBtnControls(final Context mContext){
 		  Button skipBtn, doneBtn;
 		  TextView screenTitle;
 		  skipBtn     = (Button)   findViewById(R.id.button_skip);

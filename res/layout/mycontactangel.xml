@@ -4,19 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/greybordercell"
     android:gravity="center_vertical" >
-
-	<TextView
-	    android:id="@+id/angeltext"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_marginLeft="5dip"
-	    android:layout_marginTop="10dip"
-	    android:singleLine="true"
-	    android:text="Bright Halo"
-	    android:textSize="20dip"
-	    android:textStyle="bold" >
-
-	</TextView>
 	<ImageButton android:layout_width="wrap_content"
 		android:layout_height="fill_parent"
 		android:id="@+id/btnAction"
@@ -26,6 +13,20 @@
 		android:layout_marginRight="0dip" 
 		android:layout_marginTop="4dip">
 	</ImageButton>
+	
+	<TextView
+	    android:id="@+id/angeltext"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_marginLeft="5dip"
+	    android:layout_marginTop="10dip"
+	    android:singleLine="false"
+	    android:layout_toRightOf="@+id/angelimg"
+	    android:text="Bright Halo"
+	    android:textSize="20dip"
+	    android:textStyle="bold" >
+
+	</TextView>
 	<ImageView android:layout_alignParentLeft="true" 
 	    android:id="@+id/angelimg" 
 	    android:layout_marginLeft="10dip"

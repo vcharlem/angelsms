@@ -13,6 +13,7 @@ import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.brighthalo.myangels.Angel;
 import com.brighthalo.myangels.MainDiscussionActivity;
 import com.brighthalo.myangels.SharedStorage;
 import com.brighthalo.myangels.Splash;
@@ -24,26 +25,18 @@ public class SMSReceiver extends BroadcastReceiver{
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		
 		sharedStorage = new SharedStorage(context);
 		tmpList = sharedStorage.getAngelGroup();
 		numberList = new ArrayList<String>(Arrays.asList(tmpList.split(",")));
-		
-		if(!numberList.isEmpty()){
-			for (int x=0; x<numberList.size(); x++)
-				Log.d(Constants.DeBugTAG, "SharedStorage returns: " + numberList.get(x));
-		}		
 
-		Log.d(Constants.DeBugTAG, " Shared Storage found in Group " + sharedStorage.getAngelGroup());
-		
-		numberList = intent.getStringArrayListExtra("GroupList");
-		
+		//Log.d(Constants.DeBugTAG, " Shared Storage found in Group " + sharedStorage.getAngelGroup());
+		//numberList = intent.getStringArrayListExtra("GroupList");
+
 		if(intent.getAction().equals("com.brighthalo.intent.action.TEST")){
 			String name = intent.getStringExtra("AngelName");
-			if (!name.isEmpty()) {
+			if(!name.isEmpty()) {
 				Log.d(Constants.DeBugTAG, "SMS Receiver got name: " + name);
 			}
-
 			if(!numberList.isEmpty()){
 				for (int x=0; x<numberList.size(); x++)
 					Log.d(Constants.DeBugTAG, "SMS Receiver got list " + numberList.get(x));
@@ -51,27 +44,32 @@ public class SMSReceiver extends BroadcastReceiver{
 		}
 
 		if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED"))  {
+			if(!numberList.isEmpty()){
+				for (int x=0; x<numberList.size(); x++)
+					Log.d(Constants.DeBugTAG, "From SMSReceiver SharedStorage returns: " + numberList.get(x));
+			}		
+
 	        //---get the SMS message passed in---
 	        Bundle bundle = intent.getExtras();        
 	        SmsMessage[] msgs = null;
 	        SmsMessage[] phoneNum = null;
 	        
-	        String str = ""; 
-	        String phoneNUMBER = "";
+	        String str = ""; String phoneNUMBER = "";
 
 			sharedStorage = new SharedStorage(context);
 			tmpList = sharedStorage.getAngelGroup();
 			numberList = new ArrayList<String>(Arrays.asList(tmpList.split(",")));
 
-			Log.d(Constants.DeBugTAG, "SharedStorage returns String: " + tmpList);
+			Log.d(Constants.DeBugTAG, "SharedStorage returns raw number: " + tmpList);
 
-			if(!numberList.isEmpty())
+			if(!numberList.isEmpty())   //format phoneNumber to simple String
 				for (int x=0; x<numberList.size(); x++){
-					numberList.set(x, numberList.get(x).replaceAll("[^\\w\\s+]","").replaceAll("\\s+", ""));
-					if((numberList.get(x)).length() >=11)
-							numberList.set(x, numberList.get(x).substring(1));
+					numberList.set(x, Angel.formatPhoneNumber(numberList.get(x)));
 					
-					Log.d(Constants.DeBugTAG, "SharedStorage returns: " + numberList.get(x));
+				//	numberList.set(x, numberList.get(x).replaceAll("[^\\w\\s+]","").replaceAll("\\s+", ""));
+				//	if((numberList.get(x)).length() >=11)
+				//			numberList.set(x, numberList.get(x).substring(1));
+				//	Log.d(Constants.DeBugTAG, "SMSReceiver cleans number to: " + numberList.get(x));
 			}	
 			
 	        if (bundle != null){
@@ -91,15 +89,14 @@ public class SMSReceiver extends BroadcastReceiver{
 	            }
 	            
 	            //---display the new SMS message---
-		            if(numberList.contains(phoneNUMBER)){ // only show if on angel group list
-		           		            	
+		          if(numberList.contains(phoneNUMBER)){ // only show if on angel group list
 		            	Intent i = new Intent(context, MainDiscussionActivity.class);
+		            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		            	i.setAction(Constants.SMS_INTENT);
 		            	i.putExtra("senderPhone", phoneNUMBER);
 		            	i.putExtra("senderMsg", str.trim());
-		            	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						Log.d(Constants.DeBugTAG, "SMS Receiver message: " + i.getAction());
 						context.startActivity(i);
-		            }
+		           }
 	            
 	        }//end if(bundle != null){}
 	    }

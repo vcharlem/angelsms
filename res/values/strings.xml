@@ -31,4 +31,11 @@
     <string name="QUIT">QUIT</string>
     <string name="title_activity_about">My Angels</string>
     <string name="about">Author: Bright Halo</string>
+    <string name="welcome">\nMyAngels turns your phone into an SMS hub for focused chat sessions with 
+        your friends.\n\nMyAngels is easy to use. Simply select up to 5 members, then 
+        start messaging.\n\nWe built this app with emergency communication in mind. But feel free to use it 
+        for any other reason. \n\nPlease be aware that standard sms charges will apply from your carrier.</string>
+    <string name="instruction">MyAngels is easy to use. Simply select up to 5 members, then 
+        start messaging. </string>
+    <string name="warning">Please be aware that standard sms charges will apply from your carrier.</string>
 </resources>

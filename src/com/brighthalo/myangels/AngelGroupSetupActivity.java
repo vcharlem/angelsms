@@ -53,9 +53,7 @@ public class AngelGroupSetupActivity extends Activity {
 	public ArrayAdapter<String> angelAdapter;
 	public SelectedAngelArrayAdapter angAdapter;
 	public MyContact myContact;
-	
 	public SharedStorage sharedStorage;
-	
 	public String phoneNumber, displayName;
 	public CursorLoader cursorLoader;
 
@@ -168,10 +166,8 @@ public class AngelGroupSetupActivity extends Activity {
 	public enum ScreenWidth {fullscreen, halfscreen};
 	public void adjustListViewWidthSize(String widthSize){
         int width = windowManager.getDefaultDisplay().getWidth();
-
 		ViewGroup.LayoutParams catman = lvContacts.getLayoutParams();
 		ViewGroup.LayoutParams catman2 = lvContacts.getLayoutParams();
-		
 		ScreenWidth widthsize = ScreenWidth.valueOf(widthSize); 
 
 		switch(widthsize){
@@ -222,9 +218,9 @@ public class AngelGroupSetupActivity extends Activity {
 		    	
 				if ((listAngels.size() < Constants.MaxAngelGroup) && !(listAngels.contains(displayName)))  {
 					listAngels.add(displayName);
-					listAngelsPNum.add(phoneNumber);
-					angAdapter.add(new Angel(displayName,phoneNumber, contactID));
-					listOfAngels.add(new Angel(displayName,phoneNumber, contactID));
+					listAngelsPNum.add(Angel.formatPhoneNumber(phoneNumber) );
+					angAdapter.add(new Angel(displayName,Angel.formatPhoneNumber(phoneNumber) , contactID));
+					listOfAngels.add(new Angel(displayName,Angel.formatPhoneNumber(phoneNumber) , contactID));
 				}
 	    } catch(Exception e){
 	    		System.out.println(e.getMessage());

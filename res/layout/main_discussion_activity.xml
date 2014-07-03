@@ -28,10 +28,13 @@
         android:layout_above="@+id/form"
         android:layout_below="@+id/skip_done_btns" 
         android:orientation="vertical" >
+
 	    <ListView
 	        android:id="@+id/listView1"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
+	        android:layout_height="wrap_content"
+	        android:clickable="true" >
+
 	    </ListView>
 	</LinearLayout>
     <LinearLayout

@@ -34,6 +34,15 @@ public final class SharedStorage {
 		mUserEditor = mUserPreferences.edit();			
 	}
 
+	public boolean setInstructionSeen(){
+		mUserEditor.putString("instuctionViewed", "ViewedInstructions");
+		return false;
+	}
+	
+	public boolean getInstructionSeen(){
+		String viewed = mUserPreferences.getString("instuctionViewed", null);
+		if (viewed != null) return true; else return false;
+	}
 	public boolean setAngelList(ArrayList<Angel> listOfAngels){
 
 		Gson gson = new Gson();
@@ -50,6 +59,11 @@ public final class SharedStorage {
 
 		return listOfAngels;
 	}
+	public boolean isAngelListCreated(){
+		String content = mUserPreferences.getString("listOfAngels", "");
+		if (content !=null) return true; else return false;
+	}
+	
 	public boolean setAcceptance(){
 		mUserEditor.putString("accept", "Accetped");
 		if (mUserEditor.commit()){

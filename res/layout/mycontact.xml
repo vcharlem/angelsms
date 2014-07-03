@@ -11,7 +11,7 @@
 		android:id="@+id/contactName"
 		android:textSize="20dip"
 		android:textStyle="bold"
-		android:singleLine="true"
+		android:singleLine="false"
 		android:layout_marginLeft="64dip" 
 		android:layout_marginTop="10dip" 
 		android:text="Bright Halo">
@@ -20,8 +20,7 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/btnAction"
 		android:background="@layout/select_call"
-			    android:onClick="onActionButtonClick"
-		
+		android:onClick="onActionButtonClick"
 		android:layout_alignParentRight="true"
 		android:layout_marginRight="0dip" 
 		android:layout_marginTop="4dip">
