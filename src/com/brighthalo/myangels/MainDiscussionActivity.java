@@ -31,6 +31,18 @@ import android.view.Window;
 import com.brighthalo.utilities.SMSBroadcaster;
 //import de.svenjacobs.loremipsum.LoremIpsum;
 
+/**
+ * @author vlad
+ * MainDiscussionActivity presents discussion to User.
+ * Has Broadcast receiver which listens for SMSs.
+ * Uses SMS senderPhoneNumber to look up which ListView child to insert data.
+ * 
+ * Attempts to use ListView.getChildAt to make inserts were unsuccessful.
+ * Fix was to add lastComment field in Angel and Adapter class.
+ * 
+ * Todo: Fix bug which causes crash on initial startup.
+ * suspect problem is accessing an empty listOfAngels via SharedStorage.
+ */
 public class MainDiscussionActivity extends Activity {
 	public DiscussArrayAdapter adapter;
 	public static AngelDiscussArrayAdapter lAdapter;
@@ -44,6 +56,7 @@ public class MainDiscussionActivity extends Activity {
 	public String sendPhoneNumber;
 	public ArrayList<Angel> listOfAngels = new ArrayList<Angel>();
 	public Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
+	public String outGoingTextMsg;
 
 	public BroadcastReceiver myReceiver;
 	public IntentFilter smsIntent;
@@ -86,35 +99,23 @@ public class MainDiscussionActivity extends Activity {
 			if(mFilterIntent.getAction().equals(Constants.SMS_INTENT)){
 				sendPhoneNumber = getIntent().getExtras().getString("senderPhone");
 				msgReceived = getIntent().getExtras().getString("senderMsg");
+				Log.d(Constants.DeBugTAG, "Received : "
+								+ msgReceived + " to: " + sendPhoneNumber);
 			}
-			
-			//lv.setAdapter(MainDiscussionActivity.lAdapter);
 
-				if(lv != null) {
-					for(int x=0; x<listOfAngels.size(); x++){
-					//	lAdapter.getItem(hashtable.get(x)).setLastComment(listOfAngels.get(x).getLastComment() );
-						Log.d(Constants.DeBugTAG, "From onResume, last comment from  Angel: " + 
-									listOfAngels.get(x).getName() + ":" + listOfAngels.get(x).getLastComment() );
-
-						//listOfAngels.get(x).setLastComment(listOfAngels.get(x).getLastComment() );
+			if(lv != null) {
+				for(int x=0; x<listOfAngels.size(); x++){
+					Log.d(Constants.DeBugTAG, "From onResume, last comment from  Angel: " + 
+								listOfAngels.get(x).getName() + ":" + listOfAngels.get(x).getLastComment() );
 				}
 				
 				//lAdapter.getItem(hashtable.get(sendPhoneNumber)).setLastComment(msgReceived);
 				listOfAngels.get(hashtable.get(sendPhoneNumber)).setLastComment(msgReceived);
-				
-				//lineView = lv.getChildAt(hashtable.get(sendPhoneNumber));
-				//commentUpdate = (TextView) lineView.findViewById(R.id.comment);
-				//commentUpdate.setText(msgReceived); 
-				//lAdapter.notifyDataSetChanged();
 			} else {
 				Log.d(Constants.DeBugTAG, "+++ MainDiscussionActivity View lv returned NULL");
 			}
 
-			//lAdapter.notifyDataSetChanged();
-			//adapter.add(new OneComment(false, msgReceived));
-		} catch (NullPointerException  e) { 				
-			e.printStackTrace();
-		  }
+		} catch (NullPointerException  e) { e.printStackTrace(); }
 	}
 
 	@Override
@@ -134,16 +135,12 @@ public class MainDiscussionActivity extends Activity {
 		lv = (ListView) findViewById(R.id.listView1);
 		lv.setAdapter(lAdapter);
 		
-		if(listOfAngels != null) if (!listOfAngels.isEmpty()) { addAngelsToThisView(); }
+		//if(listOfAngels != null) if (!listOfAngels.isEmpty()) { addAngelsToThisView(); }
 		
 		if(sharedStorage.isAngelListCreated()) {
 			listOfAngels = sharedStorage.getAngelList();
 			addAngelsToThisView();
 		}
-		if(lineView == null)
-			Log.d(Constants.DeBugTAG, "====== OnCreate MainDiscussionActivity View lineView returned NULL");
-		else 
-			Log.d(Constants.DeBugTAG, "====== OnCreate MainDiscussionActivity View lineView returned Something");
 	}
 	
 	private void addAngelsToThisView() {
@@ -154,13 +151,14 @@ public class MainDiscussionActivity extends Activity {
 			hashtable.put(listOfAngels.get(x).getPhoneNumber(), x);
 		}
 	}
-
-	public String outGoingTextMsg;
+   /* Method is not used. Button is made invisible.  
+	*/
 	public void setLocalBtnControls(){
 		 sendBtn	  = (Button)   findViewById(R.id.quit);
 		 myTextMsg	  = (TextView) findViewById(R.id.myTextMsg);
 		 nine11Btn	  = (Button)   findViewById(R.id.about);
 		 nine11Btn.setText("Call 911");
+		 nine11Btn.setVisibility(View.GONE);
 		 sendBtn.setText("Send");	
 
 		 nine11Btn.setOnClickListener( new OnClickListener() {
@@ -204,7 +202,7 @@ public class MainDiscussionActivity extends Activity {
 
 					for(int x=0;  x < listOfAngels.size(); x++ ) {
 						Log.d(Constants.DeBugTAG, "SendButton string: " + listOfAngels.get(x).getPhoneNumber());
-						//smsSender.sendSmsByManager(listOfAngels.get(x).getPhoneNumber(), outGoingTextMsg);
+						smsSender.sendSmsByManager(listOfAngels.get(x).getPhoneNumber(), outGoingTextMsg);
 					}
 				}
 		 	});
@@ -277,45 +275,13 @@ public class MainDiscussionActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-        	case R.id.menu_settings:
-        		Toast.makeText(this, "You pressed Menu Settings!",
-                     Toast.LENGTH_LONG).show();
-        		return true;
         	case R.id.angel_groupsettings:
         		Intent intent=new Intent(MainDiscussionActivity.this,AngelGroupSetupActivity.class);
         		startActivity(intent);
         		finish();
         		return true;
-        	//	Toast.makeText(this, "You pressed the Setting!",
-        	//				Toast.LENGTH_LONG).show(); break;
         	default:
         		return super.onOptionsItemSelected(item);
         }
-    }    
-	private static int getRandomInteger(int aStart, int aEnd) {
-		if (aStart > aEnd) {
-			throw new IllegalArgumentException("Start cannot exceed End.");
-		}
-		long range = (long) aEnd - (long) aStart + 1;
-		long fraction = (long) (range * random.nextDouble());
-		int randomNumber = (int) (fraction + aStart);
-		return randomNumber;
-	}
-
-	private class MyCount extends CountDownTimer {
-		public MyCount(long millisInFuture, long countDownInterval) {
-			super(millisInFuture, countDownInterval);
-		}
-		@Override
-		public void onFinish() {
-			return;
-		}
-		@Override
-		public void onTick(long millisUntilFinished) {
-			// TODO Auto-generated method stub
-		}
-	}
-
-
-
+    } 
 }

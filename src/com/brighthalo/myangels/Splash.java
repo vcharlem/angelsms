@@ -3,6 +3,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+
 import com.brighthalo.myangels.SharedStorage;
 
 public class Splash extends Activity {//InstrumentedActivity {
@@ -12,6 +14,7 @@ public class Splash extends Activity {//InstrumentedActivity {
 	Boolean viewedInstructionPage;
 	public enum userState {
 		NoTermNoInstructionNoAngelList,
+		NoTermYesInstructionNoAngelList,
 		YesTermYesInstructionYesAngelList,
 		YesAngelListCreated
 	}
@@ -31,16 +34,15 @@ public class Splash extends Activity {//InstrumentedActivity {
 		mc.start();
 	}
 	public userState checkUserState(){
-		if( angelListCreated) 
-			return userState.YesAngelListCreated;
-
-		if(!angelListCreated && !viewedInstructionPage)
+		if(!viewedInstructionPage){
+			Log.d(Constants.DeBugTAG, "User has not viewed Instruction Page");
 			return userState.NoTermNoInstructionNoAngelList;
-
-		if(isTermConditionAccepted && viewedInstructionPage && angelListCreated )
-			return userState.YesTermYesInstructionYesAngelList;
-		
-		return userState.NoTermNoInstructionNoAngelList;
+		}
+		if(!angelListCreated) {
+			Log.d(Constants.DeBugTAG, "User has not created an Angel List");
+			return userState.NoTermYesInstructionNoAngelList;
+		}
+		return userState.YesAngelListCreated;
 	}
 	public class MyCount extends CountDownTimer {
 		public MyCount(long millisInFuture, long countDownInterval) {
@@ -53,18 +55,21 @@ public class Splash extends Activity {//InstrumentedActivity {
 					startActivity(new Intent(Splash.this, InstructionActivity.class));
 					finish();	
 				break;
-				case YesTermYesInstructionYesAngelList:
+				case NoTermYesInstructionNoAngelList:
+					startActivity(new Intent(Splash.this, AngelGroupSetupActivity.class));
+					finish();						
 				break;
 				case YesAngelListCreated:
 					startActivity(new Intent(Splash.this, MainDiscussionActivity.class));
-					finish();	
+					finish();						
 				break;
+
 				default:
-					startActivity(new Intent(Splash.this, AngelGroupSetupActivity.class));
+					startActivity(new Intent(Splash.this, InstructionActivity.class));
 					finish();
 				break;
 			}
-			/*
+		/*	
 			if(angelListCreated) {
 				startActivity(new Intent(Splash.this, InstructionActivity.class));
 				//startActivity(new Intent(Splash.this, AngelGroupSetupActivity.class));

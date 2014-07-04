@@ -35,13 +35,18 @@ public final class SharedStorage {
 	}
 
 	public boolean setInstructionSeen(){
-		mUserEditor.putString("instuctionViewed", "ViewedInstructions");
-		return false;
+		mUserEditor.putString("instructionViewed", "ViewedInstructions");
+		if (mUserEditor.commit())
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean getInstructionSeen(){
-		String viewed = mUserPreferences.getString("instuctionViewed", null);
-		if (viewed != null) return true; else return false;
+		String viewed = mUserPreferences.getString("instructionViewed", "");
+		Log.d(Constants.DeBugTAG, " SharedStorage has set instructionViewed bit.");
+		
+		if (viewed.length()>0) return true; else return false;
 	}
 	public boolean setAngelList(ArrayList<Angel> listOfAngels){
 
@@ -61,7 +66,7 @@ public final class SharedStorage {
 	}
 	public boolean isAngelListCreated(){
 		String content = mUserPreferences.getString("listOfAngels", "");
-		if (content !=null) return true; else return false;
+		if (content != "") return true; else return false;
 	}
 	
 	public boolean setAcceptance(){

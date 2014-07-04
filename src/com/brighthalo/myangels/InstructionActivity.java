@@ -12,12 +12,10 @@ import android.widget.TextView;
 
 public class InstructionActivity extends Activity {
 	public BtnControls btnControls = new BtnControls(InstructionActivity.this);
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedStorage sharedStorage = new SharedStorage(InstructionActivity.this);
-		sharedStorage.setInstructionSeen();
 		setContentView(R.layout.instruction_screen);	
 		setLocalBtnControls();
 		setGlobalBtnControls();
@@ -38,8 +36,11 @@ public class InstructionActivity extends Activity {
 
 	      doneNextBtn.setOnClickListener(new OnClickListener() {
 	  		public void onClick(View v) {
-	  			 Intent intent1 = new Intent(InstructionActivity.this,AngelGroupSetupActivity.class);
-	             startActivity(intent1);
+	  			SharedStorage sharedStorage = new SharedStorage(InstructionActivity.this);
+	  			sharedStorage.setInstructionSeen();
+
+	  			Intent intent1 = new Intent(InstructionActivity.this,AngelGroupSetupActivity.class);
+	            startActivity(intent1);
 	  		}
 	  	  });
 	}

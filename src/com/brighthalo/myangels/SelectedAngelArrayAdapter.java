@@ -46,6 +46,7 @@ public final class SelectedAngelArrayAdapter extends ArrayAdapter<Angel> {
 		btnAction.setVisibility(View.GONE);
 
 		contactPhoto = (ImageView) row.findViewById(R.id.angelimg); 
+		contactPhoto.setVisibility(View.GONE);
 
 		try{
 		  //contactPhoto.setImageBitmap(getContactPhoto( angel.getContactId()) );

@@ -15,10 +15,10 @@
 	  android:text="Hello!" />
 	
 	<Button
-	  android:id="@+id/btn_close_popup"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:layout_gravity="center"
-	  android:text="Close" />
+	    android:id="@+id/btn_close_popup"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="bottom|center"
+	    android:text="Close" />
 
 </LinearLayout>

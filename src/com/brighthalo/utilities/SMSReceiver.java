@@ -17,7 +17,8 @@ import com.brighthalo.myangels.Angel;
 import com.brighthalo.myangels.MainDiscussionActivity;
 import com.brighthalo.myangels.SharedStorage;
 import com.brighthalo.myangels.Splash;
-
+/* Should remove test intent logic since it is no longer used
+ */
 public class SMSReceiver extends BroadcastReceiver{
 	public static ArrayList<String> numberList;  
 	public SharedStorage sharedStorage;
@@ -28,9 +29,6 @@ public class SMSReceiver extends BroadcastReceiver{
 		sharedStorage = new SharedStorage(context);
 		tmpList = sharedStorage.getAngelGroup();
 		numberList = new ArrayList<String>(Arrays.asList(tmpList.split(",")));
-
-		//Log.d(Constants.DeBugTAG, " Shared Storage found in Group " + sharedStorage.getAngelGroup());
-		//numberList = intent.getStringArrayListExtra("GroupList");
 
 		if(intent.getAction().equals("com.brighthalo.intent.action.TEST")){
 			String name = intent.getStringExtra("AngelName");
@@ -62,14 +60,9 @@ public class SMSReceiver extends BroadcastReceiver{
 
 			Log.d(Constants.DeBugTAG, "SharedStorage returns raw number: " + tmpList);
 
-			if(!numberList.isEmpty())   //format phoneNumber to simple String
+			if(!numberList.isEmpty())
 				for (int x=0; x<numberList.size(); x++){
 					numberList.set(x, Angel.formatPhoneNumber(numberList.get(x)));
-					
-				//	numberList.set(x, numberList.get(x).replaceAll("[^\\w\\s+]","").replaceAll("\\s+", ""));
-				//	if((numberList.get(x)).length() >=11)
-				//			numberList.set(x, numberList.get(x).substring(1));
-				//	Log.d(Constants.DeBugTAG, "SMSReceiver cleans number to: " + numberList.get(x));
 			}	
 			
 	        if (bundle != null){

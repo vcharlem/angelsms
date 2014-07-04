@@ -43,6 +43,16 @@ import android.widget.TextView;
 import com.brighthalo.myangels.Constants;
 import com.brighthalo.myangels.MyContact;
 
+/**
+ * @author vlad
+ * AngelGroupSetupActivity: User uses this activity to select angel group from 
+ * contact dbase. This activity stores group data to file and also shares angel phone number via 
+ * intent.
+ * 
+ * Todo: Fix the onClickListener for list item (lvContact)
+ * Intent with angelPNUM list is uncessarily sent to SMSReceiver.
+ * SMS Receiver can get same data from stored file which it already accesses.
+ */
 public class AngelGroupSetupActivity extends Activity {
 	public ArrayList<ContactsContract> listAngelsContract = new ArrayList<ContactsContract>();
 	public ArrayList<ContactsContract> listContacts = new ArrayList<ContactsContract>();
@@ -93,6 +103,10 @@ public class AngelGroupSetupActivity extends Activity {
 	public boolean contactPhotoAvailable;
 	public WindowManager windowManager;
 
+	/* Typical OnCreate process setting and defining view elements.
+	 * View shows 2 listviews. lvContacts comes from addressbook
+	 * lvAngels are picked using custom Array Adapter
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
         windowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
@@ -203,6 +217,14 @@ public class AngelGroupSetupActivity extends Activity {
 		return phoneNumber;
 	}
 	
+	/* onActionButtonClick is defined in xml file.
+	 * Tried using onClickListener, will try again later. 
+	 * Button Clicks select item from lvContact, adds new Angels to:
+	 * listAngelsPNum, which is sent to SMSReceiver via Intent.
+	 * listOfAngels is saved for persistence when saved is pressed.
+	 * 
+	 * Plan: remove listAngelsPNum, replace it with data in ListOf Angels
+	 */
 	public void onActionButtonClick(View view) {
 		adjustListViewWidthSize("halfscreen");
 
@@ -227,10 +249,7 @@ public class AngelGroupSetupActivity extends Activity {
 	    }
 
 		Angel1.setText("");
-		
-		//Toast.makeText(AngelGroupSetupActivity.this,
-		//	      "Click ListIte NAME  " + displayName , //lvContacts.getPositionForView(view), 
-		//	      Toast.LENGTH_SHORT).show();
+
 	}
 	Bitmap loadContactPhoto (ContentResolver cr, long id) {
 		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
@@ -279,7 +298,7 @@ public class AngelGroupSetupActivity extends Activity {
 				i.setAction(CUSTOM_INTENT);
 				i.putExtra("AngelName", "Bright Halo");
 				i.putStringArrayListExtra("GroupList", listAngelsPNum);
-				//sendBroadcast(i);
+				//sendBroadcast(i);    //Broadcast to SMS Receiver
 				sharedStorage.setAngelGroup(listAngelsPNum);
 				sharedStorage.setAngelList(listOfAngels);
 				//listOfAngels = sharedStorage.getAngelList();

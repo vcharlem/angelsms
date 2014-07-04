@@ -1,9 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" > 
 	    <item
-	        android:id="@+id/menu_settings"
-	        android:orderInCategory="1"
-	        android:title="@string/menu_settings"/>
-	    <item
 	        android:id="@+id/angel_groupsettings"
 	        android:orderInCategory="2"
 	        android:title="Setup your Angels"/>
