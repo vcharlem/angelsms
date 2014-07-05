@@ -24,7 +24,7 @@ public final class Angel implements Parcelable{
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.contactId = contactId;
-		this.lastComment = "Hello";
+		this.lastComment = "";
 	}
 
 	public String getName() { return name; }

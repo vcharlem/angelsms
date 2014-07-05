@@ -69,7 +69,7 @@ public class AngelGroupSetupActivity extends Activity {
 
 	ListView lvContacts, lvAngels;
 	public Cursor cursor,	 cursor1, cursorAngels;
-	public TextView Angel1, Angel2, Angel3, Angel4;
+	public TextView Angel1, Angel2, Angel3, Angel4, angelHeading;
 	public LinearLayout linearLayout;
 	ImageButton btnclk;
 	public Button setGroupListBtn, clearGroupListBtn;
@@ -172,13 +172,14 @@ public class AngelGroupSetupActivity extends Activity {
 	    lvContacts.setAdapter(adapter);
 	    
 	    adjustListViewWidthSize("fullscreen");
-	    angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
+	    //angelAdapter = new ArrayAdapter<String>(this, R.layout.mycontactangel, R.id.angeltext, listAngels);
 		angAdapter = new SelectedAngelArrayAdapter(this, R.layout.mycontactangel);
         lvAngels.setAdapter(angAdapter);
     }
 	
 	public enum ScreenWidth {fullscreen, halfscreen};
 	public void adjustListViewWidthSize(String widthSize){
+		
         int width = windowManager.getDefaultDisplay().getWidth();
 		ViewGroup.LayoutParams catman = lvContacts.getLayoutParams();
 		ViewGroup.LayoutParams catman2 = lvContacts.getLayoutParams();
@@ -187,8 +188,10 @@ public class AngelGroupSetupActivity extends Activity {
 		switch(widthsize){
 			case fullscreen: width = (int) (width * 0.9);		
 						 	 lvAngels.setVisibility(View.GONE);
+							 angelHeading.setVisibility(View.GONE);
 				break;
 			case halfscreen: width = width /2;
+							 angelHeading.setVisibility(View.VISIBLE);
 			 			 	 lvAngels.setVisibility(View.VISIBLE);
 				break;
 			default    : ;
@@ -270,7 +273,7 @@ public class AngelGroupSetupActivity extends Activity {
 					return BitmapCache.getImage(contactID);
 				}
 			} else {
-				Bitmap defaultPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.picimage);
+				Bitmap defaultPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.face54x55);
 				BitmapCache.putImage(contactID,defaultPhoto );
 				return BitmapCache.getImage(contactID);
 			}
@@ -282,10 +285,13 @@ public class AngelGroupSetupActivity extends Activity {
 	}
 
 	public void setLocalBtnControls(){
+		angelHeading = (TextView) findViewById(R.id.angelHeading);
 		setGroupListBtn   = (Button) findViewById(R.id.about);
 		clearGroupListBtn = (Button) findViewById(R.id.quit);
 		setGroupListBtn.setText("Save List");
 		clearGroupListBtn.setText("Clear List");
+		angelHeading.setVisibility(View.GONE);
+		
 		sharedStorage = new SharedStorage(AngelGroupSetupActivity.this);
 		
 		setGroupListBtn.setOnClickListener(new OnClickListener() {
@@ -301,8 +307,6 @@ public class AngelGroupSetupActivity extends Activity {
 				//sendBroadcast(i);    //Broadcast to SMS Receiver
 				sharedStorage.setAngelGroup(listAngelsPNum);
 				sharedStorage.setAngelList(listOfAngels);
-				//listOfAngels = sharedStorage.getAngelList();
-				//listOfAngels.clear();
 				
 	  			Intent intent1 = new Intent(AngelGroupSetupActivity.this,MainDiscussionActivity.class);
 	  			intent1.putParcelableArrayListExtra("listOfAngels", listOfAngels);
@@ -315,6 +319,9 @@ public class AngelGroupSetupActivity extends Activity {
 			@Override
 			public void onClick(View v) {	
 				listAngels.clear();
+				listOfAngels.clear();
+				angAdapter.clear();
+				adjustListViewWidthSize("fullscreen");
 				Angel1.setText("");
 			}
 		  });
@@ -345,7 +352,6 @@ public class AngelGroupSetupActivity extends Activity {
 	        }
 	  	  });
 		}
-
 
 	public void setListViewAttributes(){
 		lvContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

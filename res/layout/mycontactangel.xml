@@ -33,7 +33,7 @@
 	    android:onClick="onActionButtonClick"
 	    android:layout_height="fill_parent" 
 	    android:layout_width="44dip" 
-	    android:background="@drawable/picimage" 
+	    android:background="@drawable/face54x55" 
 	    android:layout_marginTop="4dip">
 	</ImageView>
 

@@ -53,6 +53,7 @@
 	        android:orientation="horizontal" >
 
 	            <TextView
+	                android:id="@+id/contactHeading"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="1"
@@ -63,6 +64,7 @@
 	            </TextView>
 
 	            <TextView
+	                android:id="@+id/angelHeading"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="1"

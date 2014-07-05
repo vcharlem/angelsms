@@ -1,7 +1,12 @@
 package com.brighthalo.utilities;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.telephony.SmsManager;
 import android.widget.Toast;
@@ -11,12 +16,12 @@ public class SMSBroadcaster {
 	public SMSBroadcaster(Context context){
 		mContext = context;
 	}
+
+	
     public void sendSmsByManager(String phoneNumber, String smsBody) {
-        try {
-            // Get the default instance of the SmsManager
+    	try{
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNumber, null, smsBody, null, null);
-            Toast.makeText(mContext , "Your sms has successfully sent!",Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
             Toast.makeText(mContext,"Your sms has failed...", Toast.LENGTH_LONG).show();
             ex.printStackTrace();
@@ -51,3 +56,4 @@ public class SMSBroadcaster {
     }
 }
 //http://androidthon.info/how-to-send-sms-in-android-built-in/
+//http://www.compiletimeerror.com/2013/10/smsmessage-delivery-in-android-with.html#.U7c3BfldU5k

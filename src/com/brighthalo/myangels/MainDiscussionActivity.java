@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -77,44 +78,28 @@ public class MainDiscussionActivity extends Activity {
 	  super.onRestoreInstanceState(savedInstanceState);
 	  notify();
 	}
-	
+
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-	  super.onSaveInstanceState(outState);
-	//  outState.putAll(outState);
-	  notify();
+	protected void onStart(){
+		super.onStart();
 	}
-	  
+	public Intent mIntent = new Intent();
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		wind = this.getWindow();
 		wind.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
 		wind.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		wind.addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
-		Intent mFilterIntent = new Intent();
-		mFilterIntent = getIntent();
+		mIntent = getIntent();
 		try{
-			if(mFilterIntent.getAction().equals(Constants.SMS_INTENT)){
-				sendPhoneNumber = getIntent().getExtras().getString("senderPhone");
-				msgReceived = getIntent().getExtras().getString("senderMsg");
-				Log.d(Constants.DeBugTAG, "Received : "
-								+ msgReceived + " to: " + sendPhoneNumber);
-			}
-
-			if(lv != null) {
-				for(int x=0; x<listOfAngels.size(); x++){
-					Log.d(Constants.DeBugTAG, "From onResume, last comment from  Angel: " + 
-								listOfAngels.get(x).getName() + ":" + listOfAngels.get(x).getLastComment() );
-				}
-				
-				//lAdapter.getItem(hashtable.get(sendPhoneNumber)).setLastComment(msgReceived);
+			if(mIntent !=null && mIntent.getExtras().getString("senderPhone").length()>1 ) {
+				sendPhoneNumber = mIntent.getExtras().getString("senderPhone");
+				msgReceived = mIntent.getExtras().getString("senderMsg");
 				listOfAngels.get(hashtable.get(sendPhoneNumber)).setLastComment(msgReceived);
-			} else {
-				Log.d(Constants.DeBugTAG, "+++ MainDiscussionActivity View lv returned NULL");
+				//lAdapter.getItem(hashtable.get(sendPhoneNumber)).setLastComment(msgReceived);
+				//Log.d(Constants.DeBugTAG, "Received : " + msgReceived + " to: " + sendPhoneNumber);
 			}
-
 		} catch (NullPointerException  e) { e.printStackTrace(); }
 	}
 
@@ -197,17 +182,26 @@ public class MainDiscussionActivity extends Activity {
 				public void onClick(View v) {
 					outGoingTextMsg = myTextMsg.getText().toString();
 					Log.d(Constants.DeBugTAG, "Outgoing message string: " + outGoingTextMsg);
-
+					setNativeKeyPadVisibility(false);
 					initiatePopupWindow();
 
 					for(int x=0;  x < listOfAngels.size(); x++ ) {
 						Log.d(Constants.DeBugTAG, "SendButton string: " + listOfAngels.get(x).getPhoneNumber());
 						smsSender.sendSmsByManager(listOfAngels.get(x).getPhoneNumber(), outGoingTextMsg);
 					}
+					myTextMsg.setText("");
 				}
 		 	});
 	}
+	private void setNativeKeyPadVisibility(boolean visible){
+		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); 
 
+		if(visible){
+			imm.showSoftInput(myTextMsg, InputMethodManager.SHOW_IMPLICIT);
+		}else{
+			imm.hideSoftInputFromWindow(myTextMsg.getWindowToken(), 0);
+		}
+	}
 	public PopupWindow pwindo;
 	public Button btnClosePopup;
 	public TextView popupTxt;

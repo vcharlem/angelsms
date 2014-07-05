@@ -81,7 +81,7 @@ public class MyContactArrayAdapter extends ArrayAdapter<MyContact>{
 					return BitmapCache.getImage(contactID);
 				}
 			} else {
-				Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.picimage);
+				Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.face54x55);
 				BitmapCache.putImage(contactID,defaultPhoto );
 				return BitmapCache.getImage(contactID);
 			}
@@ -89,7 +89,7 @@ public class MyContactArrayAdapter extends ArrayAdapter<MyContact>{
 		}else{
 			return BitmapCache.getImage(contactID);
 		}
-		Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(),  R.drawable.picimage);
+		Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(),  R.drawable.face54x55);
 		return defaultPhoto;
 	}
 	Bitmap loadContactPhoto (ContentResolver cr, long id) {
